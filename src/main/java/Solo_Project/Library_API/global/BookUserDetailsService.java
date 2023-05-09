@@ -1,6 +1,7 @@
 package Solo_Project.Library_API.global;
 
 import Solo_Project.Library_API.domain.member.entity.Member;
+import Solo_Project.Library_API.domain.member.repository.MemberRepository;
 import Solo_Project.Library_API.global.advice.BusinessLogicException;
 import Solo_Project.Library_API.global.advice.ExceptionCode;
 import org.springframework.security.core.GrantedAuthority;
