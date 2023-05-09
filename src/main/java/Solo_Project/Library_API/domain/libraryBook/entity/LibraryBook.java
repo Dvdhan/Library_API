@@ -10,6 +10,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@Table(name = "library_book",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"libraryId", "bookId"})})
 public class LibraryBook {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

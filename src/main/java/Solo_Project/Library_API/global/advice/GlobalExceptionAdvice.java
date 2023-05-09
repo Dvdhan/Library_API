@@ -7,6 +7,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestControllerAdvice
 public class GlobalExceptionAdvice {
     @ExceptionHandler
@@ -15,10 +18,10 @@ public class GlobalExceptionAdvice {
         final ErrorResponse response = ErrorResponse.of(e.getBindingResult());
         return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler
+    @ExceptionHandler(BusinessLogicException.class)
     public ResponseEntity handleBusinessLogicException(BusinessLogicException e) {
         final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
-        return new ResponseEntity(response, HttpStatus.valueOf(response.getStatus()));
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
     }
     @ExceptionHandler
     public ResponseEntity handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
