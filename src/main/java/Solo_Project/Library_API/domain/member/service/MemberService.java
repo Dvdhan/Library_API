@@ -8,7 +8,11 @@ import Solo_Project.Library_API.global.advice.BusinessLogicException;
 import Solo_Project.Library_API.global.advice.ExceptionCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,17 +51,22 @@ public class MemberService {
         return createdMember;
     }
 
-    //    public Member findMember(Member member) throws Exception {
-//        Optional<Member> findMember = memberRepository.findByMemberId(member.getMemberId());
-//        Member foundMember = findMember.orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-//        return foundMember;
-//    }
     public Member findMember(Long memberId) throws Exception {
         Optional<Member> findMember = memberRepository.findByMemberId(memberId);
         Member foundMember = findMember.orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return foundMember;
     }
 
+    public Page<Member> findAllMember(Long libraryId, int page, int size) {
+        Page<Member> memberPage = memberRepository.findAllByLibraryId(libraryId,PageRequest.of(
+            page, size, Sort.by("memberId").descending()
+        ));
+        if(memberPage.isEmpty()) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }else {
+            return memberPage;
+        }
+    }
     public void verifyExistedEmail(String email) throws Exception{
         Optional<Member> foundEmail = memberRepository.findByEmail(email);
         if (foundEmail.isPresent())
