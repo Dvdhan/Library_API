@@ -44,8 +44,6 @@ public class MemberController {
         return new ResponseEntity(response, headers, HttpStatus.CREATED);
     }
     // 개별 조회 혹은 사용자 대출 히스토리 기록 조회 메서드 필요
-
-
     @DeleteMapping("/{library-Id}")
     public ResponseEntity deleteMember(@PathVariable("library-Id")@Positive Long libraryId) throws Exception {
         Long memberId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
