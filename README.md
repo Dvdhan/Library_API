@@ -5,6 +5,8 @@
 이를 개선하기 위해, 클라우드 기반의 '도서 관리 프로그램'을 제작한다.
 
 ## 2. 사용자 요구 명세서
+![image](https://github.com/Dvdhan/Library_API/assets/105369104/6c455f6f-139a-4ca2-ab1c-886e457e5d2f)
+
 ![image](https://user-images.githubusercontent.com/105369104/236761280-fe85a537-2311-4522-87cf-5599d646b3df.png)
 
 ## 3. ERD
