@@ -73,7 +73,10 @@ public class LibraryController {
 
         List<Book> books = bookPage.getContent();
         List<BookDto.Response> responses = bookMapper.booksToBookDtoResponse(books);
-        responses.stream().forEach(x -> x.setUrl(bookUrl+x.getBookId()));
+        responses.stream().forEach(x -> {
+            x.setLibraryId(libraryId);
+            x.setUrl(bookUrl+x.getBookId());
+        });
 
         return new ResponseEntity(
                 new MultiResponse<>(responses, pageInfo), HttpStatus.OK
