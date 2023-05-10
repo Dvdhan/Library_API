@@ -12,7 +12,8 @@ public enum ExceptionCode {
     LIBRARY_BOOK_SOLD_OUT(400, "모든 책이 대여중입니다."),
     METHOD_NOT_ALLOWED(400,"메서드가 잘못되었습니다."),
     EMAIL_IS_ALREADY_EXIST(400,"이미 존재하는 이메일 입니다."),
-    FIELD_MUST_BE_FULFILLED(400,"내용이 부족합니다.");
+    FIELD_MUST_BE_FULFILLED(400,"내용이 부족합니다."),
+    DATA_IS_EMPTY(400, "저장된 정보가 없습니다.");
 
     @Getter
     int status;

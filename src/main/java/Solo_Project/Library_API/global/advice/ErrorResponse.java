@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 import javax.validation.ConstraintViolation;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,6 +18,8 @@ public class ErrorResponse {
     private int status;
     private String message;
 
+    public ErrorResponse() {
+    }
     private ErrorResponse (ExceptionCode exceptionCode){
         this.status = exceptionCode.getStatus();
         this.message = exceptionCode.getMessage();
@@ -32,11 +35,9 @@ public class ErrorResponse {
     public static ErrorResponse of(ExceptionCode exceptionCode){
         return new ErrorResponse(exceptionCode.getStatus(), exceptionCode.getMessage());
     }
-
     public static ErrorResponse of(HttpStatus httpStatus) {
         return new ErrorResponse(httpStatus.value(), httpStatus.getReasonPhrase());
     }
-
     public static ErrorResponse of(BindingResult bindingResult){
         return new ErrorResponse(FieldError.of(bindingResult),null);
     }

@@ -30,7 +30,6 @@ public class MemberController {
         this.mapper = mapper;
         this.memberService = memberService;
     }
-
     @PostMapping("/{library-Id}")
     public ResponseEntity postMember(@PathVariable("library-Id")@Positive Long libraryId,
                                      @RequestBody @Valid MemberDto.Post post) throws Exception {
@@ -50,7 +49,6 @@ public class MemberController {
         response.setUrl(url+response.getMemberId());
         return new ResponseEntity(response, HttpStatus.OK);
     }
-
     @DeleteMapping("/{library-Id}")
     public ResponseEntity deleteMember(@PathVariable("library-Id")@Positive Long libraryId) throws Exception {
         Long memberId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
