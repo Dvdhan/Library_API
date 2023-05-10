@@ -1,5 +1,9 @@
 package Solo_Project.Library_API.domain.member.controller;
 
+import Solo_Project.Library_API.domain.library.repository.LibraryRepository;
+import Solo_Project.Library_API.domain.library.service.LibraryService;
+import Solo_Project.Library_API.domain.libraryMember.entity.LibraryMember;
+import Solo_Project.Library_API.domain.libraryMember.repository.LibraryMemberRepository;
 import Solo_Project.Library_API.domain.member.dto.MemberDto;
 import Solo_Project.Library_API.domain.member.entity.Member;
 import Solo_Project.Library_API.domain.member.mapper.MemberMapper;
@@ -9,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,17 +30,35 @@ public class MemberController {
 
     private MemberMapper mapper;
     private MemberService memberService;
+    private LibraryService libraryService;
+    private LibraryMemberRepository libraryMemberRepository;
 
-    public MemberController(MemberMapper mapper, MemberService memberService) {
+    public MemberController(MemberMapper mapper,
+                            MemberService memberService,
+                            LibraryService libraryService,
+                            LibraryMemberRepository libraryMemberRepository) {
         this.mapper = mapper;
         this.memberService = memberService;
+        this.libraryService = libraryService;
+        this.libraryMemberRepository = libraryMemberRepository;
     }
+
+    @Transactional
     @PostMapping("/{library-Id}")
     public ResponseEntity postMember(@PathVariable("library-Id")@Positive Long libraryId,
                                      @RequestBody @Valid MemberDto.Post post) throws Exception {
+
         Member member = mapper.memberDtoPostToMember(post);
         member.setLibraryId(libraryId);
         Member createdMember = memberService.createMember(member);
+
+        LibraryMember libraryMember = new LibraryMember();
+        libraryMember.setMember(member);
+        libraryMember.setLibrary(libraryService.findLibrary(libraryId));
+        member.getLibraryMembers().add(libraryMember);
+
+        libraryMemberRepository.save(libraryMember);
+
         MemberDto.Response response = mapper.memberToMemberDtoResponse(createdMember);
         response.setUrl(url + response.getMemberId());
         HttpHeaders headers = new HttpHeaders();

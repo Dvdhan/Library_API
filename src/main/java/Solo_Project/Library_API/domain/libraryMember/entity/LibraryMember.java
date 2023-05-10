@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 public class LibraryMember {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long libraryMemberId;
 
     @ManyToOne

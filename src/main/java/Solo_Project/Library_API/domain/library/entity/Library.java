@@ -20,7 +20,7 @@ public class Library {
     @Column
     private String libraryName;
 
-    @OneToMany(mappedBy = "library")
+    @OneToMany(mappedBy = "library", cascade = CascadeType.ALL)
     private List<LibraryMember> libraryMembers = new ArrayList<>();
 
     @OneToMany(mappedBy = "library")
