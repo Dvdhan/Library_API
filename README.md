@@ -7,7 +7,7 @@
 ## 2. 사용자 요구 명세서
 ![image](https://github.com/Dvdhan/Library_API/assets/105369104/6c455f6f-139a-4ca2-ab1c-886e457e5d2f)
 
-![image](https://user-images.githubusercontent.com/105369104/236761280-fe85a537-2311-4522-87cf-5599d646b3df.png)
+![image](https://github.com/Dvdhan/Library_API/assets/105369104/19b3e681-6204-43fb-b739-c2d10a557b1e)
 
 ## 3. ERD
 ![image](https://user-images.githubusercontent.com/105369104/236761214-72437a57-8a9e-41b4-87ca-3dd2f87969d7.png)
