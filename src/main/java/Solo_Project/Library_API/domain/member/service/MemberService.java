@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,7 @@ public class MemberService {
         this.publisher = publisher;
     }
 
+    @Transactional
     public Member createMember(Member member) throws Exception{
         verifyExistedEmail(member.getEmail());
 
@@ -59,7 +61,7 @@ public class MemberService {
 
     public Page<Member> findAllMember(Long libraryId, int page, int size) {
         Page<Member> memberPage = memberRepository.findAllByLibraryId(libraryId,PageRequest.of(
-            page, size, Sort.by("memberId").descending()
+            page, size, Sort.by("member.memberId").descending()
         ));
         if(memberPage.isEmpty()) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);

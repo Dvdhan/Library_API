@@ -37,7 +37,7 @@ public class Member {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<LibraryMember> libraryMembers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
