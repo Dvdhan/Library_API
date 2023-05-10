@@ -8,18 +8,18 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: create
+#      ddl-auto: create
 #      ddl-auto: update
-#      ddl-auto: none
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
         format_sql: true
   sql:
     init:
-      mode: never
-#      mode: always
 #      mode: never
+#      mode: always
+      mode: never
       encoding: UTF-8
       separator: ";"
       data-locations: classpath:/db/*
