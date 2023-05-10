@@ -26,8 +26,6 @@ public class Book {
     @Column
     @Enumerated(EnumType.STRING)
     private BookStatus bookStatus = BookStatus.BOOK_STATUS_AVAILABLE;
-    @Column
-    private Long libraryId;
 
     public enum BookStatus {
         BOOK_STATUS_AVAILABLE("대여 가능"),
