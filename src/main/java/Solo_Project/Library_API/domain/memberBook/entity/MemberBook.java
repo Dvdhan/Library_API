@@ -2,14 +2,18 @@ package Solo_Project.Library_API.domain.memberBook.entity;
 
 import Solo_Project.Library_API.domain.book.entity.Book;
 import Solo_Project.Library_API.domain.member.entity.Member;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 public class MemberBook {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberBookId;
 
     @Column
