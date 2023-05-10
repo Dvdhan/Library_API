@@ -43,6 +43,8 @@ public class MemberController {
         headers.add("Access-Control-Expose-Headers","Authorization");
         return new ResponseEntity(response, headers, HttpStatus.CREATED);
     }
+    @GetMapping
+
     @DeleteMapping("/{library-Id}")
     public ResponseEntity deleteMember(@PathVariable("library-Id")@Positive Long libraryId) throws Exception {
         Long memberId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
