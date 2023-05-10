@@ -43,7 +43,13 @@ public class MemberController {
         headers.add("Access-Control-Expose-Headers","Authorization");
         return new ResponseEntity(response, headers, HttpStatus.CREATED);
     }
-    @GetMapping
+    @GetMapping("/{member-Id}")
+    public ResponseEntity getMember(@PathVariable("member-Id")@Positive Long memberId) throws Exception {
+        Member member = memberService.findMember(memberId);
+        MemberDto.Response response = mapper.memberToMemberDtoResponse(member);
+        response.setUrl(url+response.getMemberId());
+        return new ResponseEntity(response, HttpStatus.OK);
+    }
 
     @DeleteMapping("/{library-Id}")
     public ResponseEntity deleteMember(@PathVariable("library-Id")@Positive Long libraryId) throws Exception {
