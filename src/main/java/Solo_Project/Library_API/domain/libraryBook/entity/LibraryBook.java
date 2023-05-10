@@ -15,6 +15,10 @@ public class LibraryBook {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long libraryBookId;
 
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Book.BookStatus bookStatus = Book.BookStatus.AVAILABLE;
+
     @ManyToOne
     @JoinColumn(name = "libraryId")
     private Library library;

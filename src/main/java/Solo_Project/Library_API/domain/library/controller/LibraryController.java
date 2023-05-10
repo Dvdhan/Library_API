@@ -7,11 +7,16 @@ import Solo_Project.Library_API.domain.book.entity.Book;
 import Solo_Project.Library_API.domain.book.mapper.BookMapper;
 import Solo_Project.Library_API.domain.book.repository.BookRepository;
 import Solo_Project.Library_API.domain.book.service.BookService;
+import Solo_Project.Library_API.domain.libraryBook.dto.LibraryBookDto;
+import Solo_Project.Library_API.domain.libraryBook.entity.LibraryBook;
+import Solo_Project.Library_API.domain.libraryBook.mapper.LibraryBookMapper;
+import Solo_Project.Library_API.domain.libraryBook.service.LibraryBookService;
 import Solo_Project.Library_API.domain.member.dto.MemberDto;
 import Solo_Project.Library_API.domain.member.entity.Member;
 import Solo_Project.Library_API.domain.member.mapper.MemberMapper;
 import Solo_Project.Library_API.domain.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +37,12 @@ public class LibraryController {
     private MemberMapper memberMapper;
     private BookService bookService;
     private BookMapper bookMapper;
+
+    @Autowired
+    private LibraryBookService libraryBookService;
+
+    @Autowired
+    private LibraryBookMapper libraryBookMapper;
 
     public LibraryController(MemberService memberService,
                              MemberMapper memberMapper,
@@ -60,7 +71,6 @@ public class LibraryController {
             x.setLibraryId(libraryId);
             x.setUrl(memberUrl+x.getMemberId());
         });
-
         return new ResponseEntity(
                 new MultiResponse<>(responses, pageInfo), HttpStatus.OK
         );
@@ -69,20 +79,19 @@ public class LibraryController {
     public ResponseEntity getBooks(@Positive @PathVariable("library-Id")Long libraryId,
                                    @Positive @RequestParam int page,
                                    @Positive @RequestParam int size) {
-        Page<Book> bookPage = bookService.findAllBook(libraryId,page-1,size);
-        PageInfo pageInfo = new PageInfo(bookPage.getNumber(), bookPage.getSize(),
-                bookPage.getTotalElements(),bookPage.getTotalPages());
+        Page<LibraryBook> libraryBookPage = libraryBookService.findAllLibraryBooksByLibraryId(libraryId,page-1,size);
+        PageInfo pageInfo = new PageInfo(libraryBookPage.getNumber(), libraryBookPage.getSize(),
+                libraryBookPage.getTotalElements(),libraryBookPage.getTotalPages());
 
-        List<Book> books = bookPage.getContent();
-        List<BookDto.Response> responses = bookMapper.booksToBookDtoResponse(books);
+        List<LibraryBook> libraryBooks = libraryBookPage.getContent();
+        List<LibraryBookDto.Response> responses = libraryBookMapper.libraryBooksToLibraryBooksDtoResponse(libraryBooks);
         responses.stream().forEach(x -> {
             x.setLibraryId(libraryId);
-            x.setUrl(bookUrl+x.getBookId());
+            x.setUrl(bookUrl+x.getLibraryBookId());
         });
 
         return new ResponseEntity(
                 new MultiResponse<>(responses, pageInfo), HttpStatus.OK
         );
     }
-
 }

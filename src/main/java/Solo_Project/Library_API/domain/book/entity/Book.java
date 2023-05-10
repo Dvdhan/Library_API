@@ -23,13 +23,13 @@ public class Book {
     private String bookAuthor;
     @Column
     private String bookPublisher;
-    @Column
-    @Enumerated(EnumType.STRING)
-    private BookStatus bookStatus = BookStatus.BOOK_STATUS_AVAILABLE;
+//    @Column
+//    @Enumerated(EnumType.STRING)
+//    private BookStatus bookStatus = BookStatus.AVAILABLE;
 
     public enum BookStatus {
-        BOOK_STATUS_AVAILABLE("대여 가능"),
-        BOOK_STATUS_UNAVAILABLE("대여 불가");
+        AVAILABLE("대여 가능"),
+        UNAVAILABLE("대여 불가");
 
         @Getter
         private String status;

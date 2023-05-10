@@ -2,7 +2,10 @@ package Solo_Project.Library_API.domain.book.service;
 
 import Solo_Project.Library_API.domain.book.entity.Book;
 import Solo_Project.Library_API.domain.book.repository.BookRepository;
+import Solo_Project.Library_API.domain.libraryBook.entity.LibraryBook;
 import Solo_Project.Library_API.domain.member.entity.Member;
+import Solo_Project.Library_API.global.advice.BusinessLogicException;
+import Solo_Project.Library_API.global.advice.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +25,16 @@ public class BookService {
         Page<Book> bookPage = bookRepository.findAllBooksByLibraryId(libraryId, PageRequest.of(
                 page, size
         ));
-        return bookPage;
+        if(bookPage.isEmpty()) {
+            throw new BusinessLogicException(ExceptionCode.BOOK_NOT_FOUND);
+        }else {
+            return bookPage;
+        }
+    }
+    public Page<LibraryBook> findAllLibraryBooksByLibraryId(Long libraryId, int page, int size) {
+        return bookRepository.findAllLibraryBooksByLibraryId(libraryId, PageRequest.of(page, size));
+    }
+    public Book saveBook(Book book){
+        return bookRepository.save(book);
     }
 }
