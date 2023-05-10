@@ -19,8 +19,12 @@ public class BookController {
     private final String url = "http://localhost:8080/books/";
 
     @PostMapping("/{library-Id}/{book-Id}")
-    public ResponseEntity postBook(@PathVariable("library-Id")@Positive Long libraryId,
+    public ResponseEntity postBookRental(@PathVariable("library-Id")@Positive Long libraryId,
                                    @PathVariable("book-Id")@Positive Long bookId) {
+        return null;
+    }
+    @PostMapping()
+    public ResponseEntity postBook(){
         return null;
     }
 
