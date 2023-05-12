@@ -91,6 +91,7 @@ public class LibraryController {
                                    @Positive @RequestParam int page,
                                    @Positive @RequestParam int size) {
         Page<LibraryBook> libraryBookPage = libraryBookService.findAllLibraryBooksByLibraryId(libraryId,page-1,size);
+
         PageInfo pageInfo = new PageInfo(libraryBookPage.getNumber(), libraryBookPage.getSize(),
                 libraryBookPage.getTotalElements(),libraryBookPage.getTotalPages());
 
@@ -102,7 +103,6 @@ public class LibraryController {
         });
 
         return new ResponseEntity(
-                new MultiResponse<>(responses, pageInfo), HttpStatus.OK
-        );
+                new MultiResponse<>(responses, pageInfo), HttpStatus.OK);
     }
 }

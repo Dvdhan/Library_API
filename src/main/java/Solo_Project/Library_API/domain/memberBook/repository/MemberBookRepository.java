@@ -2,6 +2,8 @@ package Solo_Project.Library_API.domain.memberBook.repository;
 
 import Solo_Project.Library_API.domain.member.entity.Member;
 import Solo_Project.Library_API.domain.memberBook.entity.MemberBook;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +22,9 @@ public interface MemberBookRepository extends JpaRepository<MemberBook, Long> {
 
     @Query("SELECT mb FROM MemberBook mb WHERE mb.member.id =:memberId")
     List<MemberBook> findByMember_Id(@Param("memberId") Long memberId);
+
+    @Query("SELECT mb FROM MemberBook mb JOIN mb.book b WHERE mb.member.id = :memberId")
+    Page<MemberBook> findMemberBookByMemberId (@Param("memberId") Long memberId, Pageable pageable);
 
     @Transactional
     @Modifying
