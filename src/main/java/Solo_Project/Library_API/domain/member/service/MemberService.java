@@ -59,6 +59,12 @@ public class MemberService {
         return foundMember;
     }
 
+    public void deleteMember(Long memberId) {
+        Optional<Member> findMember = memberRepository.findByMemberId(memberId);
+        Member foundMember = findMember.orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        memberRepository.delete(foundMember);
+    }
+
     public void verifyExistedEmail(String email) throws Exception{
         Optional<Member> foundEmail = memberRepository.findByEmail(email);
         if (foundEmail.isPresent())

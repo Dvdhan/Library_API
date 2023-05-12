@@ -36,7 +36,7 @@ public class Book {
         }
     }
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
     private List<MemberBook> memberBooks = new ArrayList<>();
 
     @OneToMany(mappedBy = "book")

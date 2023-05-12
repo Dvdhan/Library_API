@@ -17,4 +17,8 @@ public class LibraryMemberService {
         return libraryMemberRepository.findAllLibraryMembersByLibraryId(libraryId, PageRequest.of(page,size));
     }
 
+
+    public LibraryMember findByLibrary_IdAndMember_Id(Long libraryId, Long memberId) {
+        return libraryMemberRepository.findByLibrary_IdAndMember_Id(libraryId, memberId);
+    }
 }

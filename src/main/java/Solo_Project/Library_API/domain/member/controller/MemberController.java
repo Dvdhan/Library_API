@@ -4,11 +4,18 @@ import Solo_Project.Library_API.domain.library.repository.LibraryRepository;
 import Solo_Project.Library_API.domain.library.service.LibraryService;
 import Solo_Project.Library_API.domain.libraryMember.entity.LibraryMember;
 import Solo_Project.Library_API.domain.libraryMember.repository.LibraryMemberRepository;
+import Solo_Project.Library_API.domain.libraryMember.service.LibraryMemberService;
 import Solo_Project.Library_API.domain.member.dto.MemberDto;
 import Solo_Project.Library_API.domain.member.entity.Member;
 import Solo_Project.Library_API.domain.member.mapper.MemberMapper;
+import Solo_Project.Library_API.domain.member.repository.MemberRepository;
 import Solo_Project.Library_API.domain.member.service.MemberService;
+import Solo_Project.Library_API.domain.memberBook.entity.MemberBook;
+import Solo_Project.Library_API.domain.memberBook.repository.MemberBookRepository;
+import Solo_Project.Library_API.global.advice.BusinessLogicException;
+import Solo_Project.Library_API.global.advice.ExceptionCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +26,17 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @Validated
 @RequestMapping("/members")
 @Slf4j
 public class MemberController {
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private MemberBookRepository memberBookRepository;
 
     private final String url = "http://localhost:8080/members/";
 
@@ -32,6 +44,9 @@ public class MemberController {
     private MemberService memberService;
     private LibraryService libraryService;
     private LibraryMemberRepository libraryMemberRepository;
+
+    @Autowired
+    private LibraryMemberService libraryMemberService;
 
     public MemberController(MemberMapper mapper,
                             MemberService memberService,
@@ -75,10 +90,22 @@ public class MemberController {
     @DeleteMapping("/{library-Id}/{member-Id}")
     public ResponseEntity deleteMember(@PathVariable("library-Id")@Positive Long libraryId,
                                        @PathVariable("member-Id")@Positive long memberId) throws Exception {
-//        Long memberId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Member findMember = memberService.findMember(memberId);
-        // 찾은 findMember 객체에 bookId가 있는지 확인하고 있다면 거절, 없다면 삭제처리해야함.
-        // book 엔티티 완성하고 다시 돌아오기
-        return null;
+
+        LibraryMember libraryMember = libraryMemberService.findByLibrary_IdAndMember_Id(libraryId, memberId);
+        if (libraryMember == null) {
+            throw new BusinessLogicException(ExceptionCode.DATA_IS_EMPTY);
+        }
+
+        List<MemberBook> existedRental = memberBookRepository.findByMember_Id(memberId);
+        boolean hasUnreturnedBooks = existedRental.stream()
+                .anyMatch(memberBook -> memberBook.getReturnedAt() == null);
+        if (hasUnreturnedBooks) {
+            throw new BusinessLogicException(ExceptionCode.RENTAL_BOOK_EXIST);
+        }
+
+        memberBookRepository.deleteByMember_Id(memberId);
+        memberService.deleteMember(memberId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
