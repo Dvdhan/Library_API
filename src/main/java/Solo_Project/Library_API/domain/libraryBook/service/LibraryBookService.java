@@ -1,6 +1,5 @@
 package Solo_Project.Library_API.domain.libraryBook.service;
 
-import Solo_Project.Library_API.domain.book.entity.Book;
 import Solo_Project.Library_API.domain.libraryBook.entity.LibraryBook;
 import Solo_Project.Library_API.domain.libraryBook.repository.LibraryBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +19,8 @@ public class LibraryBookService {
     public Page<LibraryBook> findAllLibraryBooksByLibraryId(Long libraryId, int page, int size) {
         return libraryBookRepository.findAllLibraryBooksByLibraryId(libraryId, PageRequest.of(page, size));
     }
+    public LibraryBook findLibraryBookByLibraryIdBookId(Long libraryId, Long bookId) {
+        return libraryBookRepository.findLibraryBookByLibraryIdBookId(libraryId,bookId);
+    }
+
 }

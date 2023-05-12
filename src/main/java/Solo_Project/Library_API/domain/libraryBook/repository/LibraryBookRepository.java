@@ -12,4 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface LibraryBookRepository extends JpaRepository<LibraryBook, Long> {
     @Query("SELECT lb FROM LibraryBook lb JOIN lb.book b WHERE lb.library.id = :libraryId ORDER BY b.bookTitle ASC")
     public Page<LibraryBook> findAllLibraryBooksByLibraryId(@Param("libraryId") Long libraryId, Pageable pageable);
+
+    @Query("SELECT lb FROM LibraryBook lb JOIN lb.book b WHERE lb.library.id = :libraryId AND lb.book.id = :bookId")
+    public LibraryBook findLibraryBookByLibraryIdBookId(@Param("libraryId") Long libraryId, @Param("bookId") Long bookId);
 }

@@ -15,6 +15,9 @@ public enum ExceptionCode {
     FIELD_MUST_BE_FULFILLED(400,"내용이 부족합니다."),
     BOOK_IS_ALREADY_RENTED(400,"책이 이미 대여중입니다."),
     BOOK_NOT_FOUND(400,"일치하는 책이 없습니다."),
+    RENTAL_HISTORY_NOT_FOUND(400,"대여하신 기록이 없습니다."),
+    RENTAL_PERSON_IS_DIFFERENT(400,"대여자가 다릅니다."),
+    BOOK_IS_ALREADY_RETURNED(400,"책이 이미 반납되었습니다."),
     DATA_IS_EMPTY(400, "저장된 정보가 없습니다.");
 
     @Getter
