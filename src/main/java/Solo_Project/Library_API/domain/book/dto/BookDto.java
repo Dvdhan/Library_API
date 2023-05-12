@@ -21,4 +21,14 @@ public class BookDto {
         Book.BookStatus bookStatus = Book.BookStatus.AVAILABLE;
         String url;
     }
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SingleResponse {
+        long bookId;
+        String bookTitle;
+        String bookAuthor;
+        String bookPublisher;
+    }
 }

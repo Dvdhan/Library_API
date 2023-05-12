@@ -1,6 +1,9 @@
 package Solo_Project.Library_API.domain.book.controller;
 
+import Solo_Project.Library_API.domain.book.dto.BookDto;
 import Solo_Project.Library_API.domain.book.entity.Book;
+import Solo_Project.Library_API.domain.book.mapper.BookMapper;
+import Solo_Project.Library_API.domain.book.service.BookService;
 import Solo_Project.Library_API.domain.libraryBook.entity.LibraryBook;
 import Solo_Project.Library_API.domain.libraryBook.repository.LibraryBookRepository;
 import Solo_Project.Library_API.domain.libraryBook.service.LibraryBookService;
@@ -43,6 +46,12 @@ public class BookController {
     @Autowired
     private MemberBookService memberBookService;
 
+    @Autowired
+    private BookService bookService;
+
+    @Autowired
+    private BookMapper bookMapper;
+
     @PostMapping("/{library-Id}/{book-Id}/{member-Id}")
     public ResponseEntity postBookRental(@PathVariable("library-Id")@Positive Long libraryId,
                                          @PathVariable("book-Id")@Positive Long bookId,
@@ -75,6 +84,13 @@ public class BookController {
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+    @GetMapping("/{book-Id}")
+    public ResponseEntity findBook(@PathVariable("book-Id")@Positive Long bookId) {
+        Book foundBook = bookService.findBookByBookId(bookId);
+        BookDto.SingleResponse response = bookMapper.bookToBookDtoResponse(foundBook);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{library-Id}/{book-Id}/{member-Id}")
     public ResponseEntity deleteBookRental(@PathVariable("library-Id")@Positive Long libraryId,
                                          @PathVariable("book-Id")@Positive Long bookId,

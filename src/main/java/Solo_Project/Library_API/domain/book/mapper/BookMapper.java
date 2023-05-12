@@ -8,5 +8,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {
+
+    BookDto.SingleResponse bookToBookDtoResponse (Book book);
     List<BookDto.Response> booksToBookDtoResponse (List<Book> books);
 }

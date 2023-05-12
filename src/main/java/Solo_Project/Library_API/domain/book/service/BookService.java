@@ -37,4 +37,10 @@ public class BookService {
     public Book saveBook(Book book){
         return bookRepository.save(book);
     }
+
+    public Book findBookByBookId(Long bookId) {
+        Optional<Book> findBook = bookRepository.findById(bookId);
+        Book foundBook = findBook.orElseThrow(()-> new BusinessLogicException(ExceptionCode.BOOK_NOT_FOUND));
+        return foundBook;
+    }
 }
