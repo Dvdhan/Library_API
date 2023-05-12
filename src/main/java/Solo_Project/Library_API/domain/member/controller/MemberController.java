@@ -1,5 +1,7 @@
 package Solo_Project.Library_API.domain.member.controller;
 
+import Solo_Project.Library_API.domain.Page.MultiResponse;
+import Solo_Project.Library_API.domain.Page.PageInfo;
 import Solo_Project.Library_API.domain.library.repository.LibraryRepository;
 import Solo_Project.Library_API.domain.library.service.LibraryService;
 import Solo_Project.Library_API.domain.libraryMember.entity.LibraryMember;
@@ -10,12 +12,16 @@ import Solo_Project.Library_API.domain.member.entity.Member;
 import Solo_Project.Library_API.domain.member.mapper.MemberMapper;
 import Solo_Project.Library_API.domain.member.repository.MemberRepository;
 import Solo_Project.Library_API.domain.member.service.MemberService;
+import Solo_Project.Library_API.domain.memberBook.dto.MemberBookDto;
 import Solo_Project.Library_API.domain.memberBook.entity.MemberBook;
+import Solo_Project.Library_API.domain.memberBook.mapper.MemberBookMapper;
 import Solo_Project.Library_API.domain.memberBook.repository.MemberBookRepository;
+import Solo_Project.Library_API.domain.memberBook.service.MemberBookService;
 import Solo_Project.Library_API.global.advice.BusinessLogicException;
 import Solo_Project.Library_API.global.advice.ExceptionCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +43,8 @@ public class MemberController {
     private MemberRepository memberRepository;
     @Autowired
     private MemberBookRepository memberBookRepository;
+    @Autowired
+    private MemberBookService memberBookService;
 
     private final String url = "http://localhost:8080/members/";
 
@@ -47,6 +55,9 @@ public class MemberController {
 
     @Autowired
     private LibraryMemberService libraryMemberService;
+
+    @Autowired
+    private MemberBookMapper memberBookMapper;
 
     public MemberController(MemberMapper mapper,
                             MemberService memberService,
@@ -80,7 +91,7 @@ public class MemberController {
         headers.add("Access-Control-Expose-Headers","Authorization");
         return new ResponseEntity(response, headers, HttpStatus.CREATED);
     }
-    @GetMapping("/{member-Id}")
+    @GetMapping("/{library-Id}/{member-Id}")
     public ResponseEntity getMember(@PathVariable("member-Id")@Positive Long memberId) throws Exception {
         Member member = memberService.findMember(memberId);
         MemberDto.Response response = mapper.memberToMemberDtoResponse(member);
@@ -107,5 +118,21 @@ public class MemberController {
         memberService.deleteMember(memberId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @GetMapping("/history/{member-Id}")
+    public ResponseEntity getRentalHistory(@PathVariable("member-Id")@Positive long memberId,
+                                           @Positive @RequestParam int page,
+                                           @Positive @RequestParam int size) throws Exception {
+
+        Page<MemberBook> memberBookPage = memberBookService.findMemberBooksByMemberId(memberId,page-1,size);
+
+        PageInfo pageInfo = new PageInfo(memberBookPage.getNumber(), memberBookPage.getSize(),
+                memberBookPage.getTotalElements(), memberBookPage.getTotalPages());
+
+        List<MemberBook> memberBooks = memberBookPage.getContent();
+        List<MemberBookDto.Response> responses = memberBookMapper.memberBooksToMemberBooksDtoResponse(memberBooks);
+
+        return new ResponseEntity(
+                new MultiResponse<>(responses, pageInfo),HttpStatus.OK);
     }
 }
