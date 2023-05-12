@@ -113,10 +113,8 @@ public class MemberController {
         if (hasUnreturnedBooks) {
             throw new BusinessLogicException(ExceptionCode.RENTAL_BOOK_EXIST);
         }
-
         memberBookRepository.deleteByMember_Id(memberId);
         memberService.deleteMember(memberId);
-
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @GetMapping("/history/{member-Id}")
@@ -125,11 +123,14 @@ public class MemberController {
                                            @Positive @RequestParam int size) throws Exception {
 
         Page<MemberBook> memberBookPage = memberBookService.findMemberBooksByMemberId(memberId,page-1,size);
+        List<MemberBook> memberBooks = memberBookPage.getContent();
 
+        if (memberBooks.isEmpty()) {
+            throw new BusinessLogicException(ExceptionCode.RENTAL_HISTORY_NOT_FOUND);
+        }
         PageInfo pageInfo = new PageInfo(memberBookPage.getNumber(), memberBookPage.getSize(),
                 memberBookPage.getTotalElements(), memberBookPage.getTotalPages());
 
-        List<MemberBook> memberBooks = memberBookPage.getContent();
         List<MemberBookDto.Response> responses = memberBookMapper.memberBooksToMemberBooksDtoResponse(memberBooks);
 
         return new ResponseEntity(
