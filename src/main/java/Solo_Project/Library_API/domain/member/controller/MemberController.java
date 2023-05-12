@@ -72,9 +72,10 @@ public class MemberController {
         response.setUrl(url+response.getMemberId());
         return new ResponseEntity(response, HttpStatus.OK);
     }
-    @DeleteMapping("/{library-Id}")
-    public ResponseEntity deleteMember(@PathVariable("library-Id")@Positive Long libraryId) throws Exception {
-        Long memberId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    @DeleteMapping("/{library-Id}/{member-Id}")
+    public ResponseEntity deleteMember(@PathVariable("library-Id")@Positive Long libraryId,
+                                       @PathVariable("member-Id")@Positive long memberId) throws Exception {
+//        Long memberId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Member findMember = memberService.findMember(memberId);
         // 찾은 findMember 객체에 bookId가 있는지 확인하고 있다면 거절, 없다면 삭제처리해야함.
         // book 엔티티 완성하고 다시 돌아오기

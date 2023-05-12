@@ -23,9 +23,6 @@ public class Book {
     private String bookAuthor;
     @Column
     private String bookPublisher;
-//    @Column
-//    @Enumerated(EnumType.STRING)
-//    private BookStatus bookStatus = BookStatus.AVAILABLE;
 
     public enum BookStatus {
         AVAILABLE("대여 가능"),

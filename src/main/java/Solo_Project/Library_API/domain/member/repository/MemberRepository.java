@@ -14,7 +14,5 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     public Optional<Member> findByEmail(String email);
     public Optional<Member> findByMemberId(Long memberId);
-    @Query("SELECT lm.member FROM LibraryMember lm WHERE lm.library.id = :libraryId")
-    public Page<Member> findAllByLibraryId(@Param("libraryId") Long libraryId, Pageable pageable);
 
 }

@@ -59,16 +59,6 @@ public class MemberService {
         return foundMember;
     }
 
-    public Page<Member> findAllMember(Long libraryId, int page, int size) {
-        Page<Member> memberPage = memberRepository.findAllByLibraryId(libraryId,PageRequest.of(
-            page, size, Sort.by("member.memberId").descending()
-        ));
-        if(memberPage.isEmpty()) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-        }else {
-            return memberPage;
-        }
-    }
     public void verifyExistedEmail(String email) throws Exception{
         Optional<Member> foundEmail = memberRepository.findByEmail(email);
         if (foundEmail.isPresent())

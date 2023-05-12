@@ -11,6 +11,10 @@ import Solo_Project.Library_API.domain.libraryBook.dto.LibraryBookDto;
 import Solo_Project.Library_API.domain.libraryBook.entity.LibraryBook;
 import Solo_Project.Library_API.domain.libraryBook.mapper.LibraryBookMapper;
 import Solo_Project.Library_API.domain.libraryBook.service.LibraryBookService;
+import Solo_Project.Library_API.domain.libraryMember.dto.LibraryMemberDto;
+import Solo_Project.Library_API.domain.libraryMember.entity.LibraryMember;
+import Solo_Project.Library_API.domain.libraryMember.mapper.LibraryMemberMapper;
+import Solo_Project.Library_API.domain.libraryMember.service.LibraryMemberService;
 import Solo_Project.Library_API.domain.member.dto.MemberDto;
 import Solo_Project.Library_API.domain.member.entity.Member;
 import Solo_Project.Library_API.domain.member.mapper.MemberMapper;
@@ -21,6 +25,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +49,11 @@ public class LibraryController {
     @Autowired
     private LibraryBookMapper libraryBookMapper;
 
+    @Autowired
+    private LibraryMemberService libraryMemberService;
+    @Autowired
+    private LibraryMemberMapper libraryMemberMapper;
+
     public LibraryController(MemberService memberService,
                              MemberMapper memberMapper,
                              BookService bookService,
@@ -61,12 +71,12 @@ public class LibraryController {
     public ResponseEntity getMembers(@Positive @PathVariable("library-Id") Long libraryId,
                                      @Positive @RequestParam int page,
                                      @Positive @RequestParam int size) {
-        Page<Member> memberPage = memberService.findAllMember(libraryId,page-1, size);
+        Page<LibraryMember> memberPage = libraryMemberService.findAllLibraryMembersByLibraryId(libraryId,page-1, size);
         PageInfo pageInfo = new PageInfo(memberPage.getNumber(),memberPage.getSize(),
                 memberPage.getTotalElements(), memberPage.getTotalPages());
 
-        List<Member> members = memberPage.getContent();
-        List<MemberDto.Response> responses = memberMapper.membersToMemberDtoResponse(members);
+        List<LibraryMember> libraryMembers = memberPage.getContent();
+        List<LibraryMemberDto.Response> responses = libraryMemberMapper.libraryMembersToLibraryMembersDtoResponse(libraryMembers);
         responses.stream().forEach(x -> {
             x.setLibraryId(libraryId);
             x.setUrl(memberUrl+x.getMemberId());
@@ -75,6 +85,7 @@ public class LibraryController {
                 new MultiResponse<>(responses, pageInfo), HttpStatus.OK
         );
     }
+    @Transactional
     @GetMapping("/{library-Id}/books")
     public ResponseEntity getBooks(@Positive @PathVariable("library-Id")Long libraryId,
                                    @Positive @RequestParam int page,
