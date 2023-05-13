@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -17,10 +17,16 @@ public class MemberBook {
     private Long memberBookId;
 
     @Column
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Column
-    private LocalDateTime returnedAt;
+    private LocalDate returnedAt;
+
+    @Column
+    private LocalDate dueReturn;
+
+    @Column
+    private Long overdueDays;
 
     @Column
     private Long libraryId;

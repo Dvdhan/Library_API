@@ -31,4 +31,12 @@ public class BookDto {
         String bookAuthor;
         String bookPublisher;
     }
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReturnBookResponseDto {
+        private String message;
+        private Long overdueDays;
+    }
 }

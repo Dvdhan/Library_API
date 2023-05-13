@@ -18,6 +18,7 @@ public enum ExceptionCode {
     RENTAL_HISTORY_NOT_FOUND(400,"대여하신 기록이 없습니다."),
     RENTAL_PERSON_IS_DIFFERENT(400,"대여자가 다릅니다."),
     BOOK_IS_ALREADY_RETURNED(400,"책이 이미 반납되었습니다."),
+    OVERDUE_HISTORY_EXIST(400, "연체 기록이 있습니다."),
     DATA_IS_EMPTY(400, "저장된 정보가 없습니다.");
 
     @Getter

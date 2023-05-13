@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.procedure.spi.ParameterRegistrationImplementor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 public class MemberBookDto {
@@ -15,10 +14,34 @@ public class MemberBookDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response{
-        private long memberId;
+        private Long memberId;
         private Long libraryId;
         private Long bookId;
-        private LocalDateTime createdAt;
-        private LocalDateTime returnedAt;
+        private LocalDate createdAt;
+        private LocalDate returnedAt;
+    }
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class RentalResponse {
+        private Long memberId;
+        private Long libraryId;
+        private Long bookId;
+        private LocalDate createdAt;
+        private LocalDate dueReturnDate;
+    }
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReturnResponse {
+        private Long memberId;
+        private Long libraryId;
+        private Long bookId;
+        private LocalDate createdAt;
+        private LocalDate returnedAt;
+        private Long overdueDays;
+        private String message;
     }
 }
