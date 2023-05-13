@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,9 +17,9 @@ import java.time.LocalDateTime;
 public abstract class Auditable {
     @CreatedDate
     @Column(name = "create_at", updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @LastModifiedDate
     @Column(name="returned_at")
-    private LocalDateTime returnedAt;
+    private LocalDate returnedAt;
 }

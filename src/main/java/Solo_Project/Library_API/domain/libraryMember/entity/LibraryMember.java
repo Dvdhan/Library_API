@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,6 +17,12 @@ public class LibraryMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long libraryMemberId;
 
+    @Column
+    private Long overdueDays;
+
+    @Column
+    private LocalDate lastOverdueDate;
+
     @ManyToOne
     @JoinColumn(name = "memberId")
     private Member member;
@@ -23,4 +30,9 @@ public class LibraryMember {
     @ManyToOne
     @JoinColumn(name = "libraryId")
     private Library library;
+
+    public void setOverdueDays(Long overdueDays) {
+        this.overdueDays = overdueDays;
+        this.lastOverdueDate = LocalDate.now();
+    }
 }
