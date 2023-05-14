@@ -14,10 +14,13 @@ public class MemberBookDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response{
-        private Long memberId;
         private Long libraryId;
+        private Long memberId;
         private Long bookId;
+        private Long memberBookId;
+        private String bookTitle;
         private LocalDate createdAt;
+        private LocalDate dueReturnDate;
         private LocalDate returnedAt;
     }
     @Getter

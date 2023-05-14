@@ -2,7 +2,6 @@ package Solo_Project.Library_API.domain.member.controller;
 
 import Solo_Project.Library_API.domain.Page.MultiResponse;
 import Solo_Project.Library_API.domain.Page.PageInfo;
-import Solo_Project.Library_API.domain.library.repository.LibraryRepository;
 import Solo_Project.Library_API.domain.library.service.LibraryService;
 import Solo_Project.Library_API.domain.libraryMember.entity.LibraryMember;
 import Solo_Project.Library_API.domain.libraryMember.repository.LibraryMemberRepository;
@@ -19,20 +18,25 @@ import Solo_Project.Library_API.domain.memberBook.repository.MemberBookRepositor
 import Solo_Project.Library_API.domain.memberBook.service.MemberBookService;
 import Solo_Project.Library_API.global.advice.BusinessLogicException;
 import Solo_Project.Library_API.global.advice.ExceptionCode;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Validated
@@ -106,12 +110,13 @@ public class MemberController {
         if (libraryMember == null) {
             throw new BusinessLogicException(ExceptionCode.DATA_IS_EMPTY);
         }
-
         List<MemberBook> existedRental = memberBookRepository.findByMember_Id(memberId);
-        boolean hasUnreturnedBooks = existedRental.stream()
-                .anyMatch(memberBook -> memberBook.getReturnedAt() == null);
-        if (hasUnreturnedBooks) {
-            throw new BusinessLogicException(ExceptionCode.RENTAL_BOOK_EXIST);
+        if(!existedRental.isEmpty()) {
+            List<String> unreturnedBookTitles = existedRental.stream()
+                    .map(x -> x.getBook().getBookTitle())
+                    .collect(Collectors.toList());
+            String message = "현재 {"+String.join(", ",unreturnedBookTitles)+"} 도서가 반납되지 않아 탈퇴 처리가 불가능합니다.";
+            return new ResponseEntity(message,HttpStatus.FORBIDDEN);
         }
         memberBookRepository.deleteByMember_Id(memberId);
         memberService.deleteMember(memberId);
@@ -135,5 +140,15 @@ public class MemberController {
 
         return new ResponseEntity(
                 new MultiResponse<>(responses, pageInfo),HttpStatus.OK);
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UnreturnedBookInfo {
+        private String bookTitle;
+        private LocalDate createdAt;
+        private LocalDate dueReturn;
+        private Long libraryId;
     }
 }

@@ -18,8 +18,11 @@ public interface MemberBookMapper {
     @Mapping(target = "memberId", source = "member.memberId")
     @Mapping(target = "libraryId", source = "libraryId")
     @Mapping(target = "bookId", source = "book.bookId")
+    @Mapping(target = "memberBookId", source = "memberBookId")
+    @Mapping(target = "bookTitle", source = "book.bookTitle")
     @Mapping(target = "createdAt", source = "createdAt")
     @Mapping(target = "returnedAt", source = "returnedAt")
+    @Mapping(target = "dueReturnDate", source = "dueReturn")
     MemberBookDto.Response memberBookToMemberBookDtoResponse(MemberBook memberBook);
     List<MemberBookDto.Response> memberBooksToMemberBooksDtoResponse (List<MemberBook> memberBooks);
 }
