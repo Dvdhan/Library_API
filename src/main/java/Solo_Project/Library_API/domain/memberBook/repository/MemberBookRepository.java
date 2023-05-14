@@ -31,6 +31,4 @@ public interface MemberBookRepository extends JpaRepository<MemberBook, Long> {
     @Query("DELETE FROM MemberBook mb WHERE mb.member.id =:memberId")
     void deleteByMember_Id(@Param("memberId") Long memberId);
 
-//    @Query("SELECT mb FROM MemberBook WHERE mb.member.id =:memberId AND mb.returnedAt IS NULL")
-    List<MemberBook> findByMemberAndReturnedAtIsNull(Member member);
 }

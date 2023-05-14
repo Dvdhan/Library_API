@@ -141,14 +141,4 @@ public class MemberController {
         return new ResponseEntity(
                 new MultiResponse<>(responses, pageInfo),HttpStatus.OK);
     }
-
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class UnreturnedBookInfo {
-        private String bookTitle;
-        private LocalDate createdAt;
-        private LocalDate dueReturn;
-        private Long libraryId;
-    }
 }
