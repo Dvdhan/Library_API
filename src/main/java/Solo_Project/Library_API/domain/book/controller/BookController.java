@@ -1,10 +1,9 @@
 package Solo_Project.Library_API.domain.book.controller;
 
-import Solo_Project.Library_API.domain.book.dto.BookDto;
 import Solo_Project.Library_API.domain.book.entity.Book;
-import Solo_Project.Library_API.domain.book.mapper.BookMapper;
-import Solo_Project.Library_API.domain.book.service.BookService;
+import Solo_Project.Library_API.domain.libraryBook.dto.LibraryBookDto;
 import Solo_Project.Library_API.domain.libraryBook.entity.LibraryBook;
+import Solo_Project.Library_API.domain.libraryBook.mapper.LibraryBookMapper;
 import Solo_Project.Library_API.domain.libraryBook.repository.LibraryBookRepository;
 import Solo_Project.Library_API.domain.libraryBook.service.LibraryBookService;
 import Solo_Project.Library_API.domain.libraryMember.entity.LibraryMember;
@@ -56,16 +55,13 @@ public class BookController {
     private MemberBookService memberBookService;
 
     @Autowired
-    private BookService bookService;
-
-    @Autowired
-    private BookMapper bookMapper;
-
-    @Autowired
     private LibraryMemberService libraryMemberService;
 
     @Autowired
     private MemberBookMapper memberBookMapper;
+
+    @Autowired
+    private LibraryBookMapper libraryBookMapper;
 
     @PostMapping("/{library-Id}/{book-Id}/{member-Id}")
     public ResponseEntity postBookRental(@PathVariable("library-Id")@Positive Long libraryId,
@@ -122,13 +118,6 @@ public class BookController {
 
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
-    @GetMapping("/{book-Id}")
-    public ResponseEntity findBook(@PathVariable("book-Id")@Positive Long bookId) {
-        Book foundBook = bookService.findBookByBookId(bookId);
-        BookDto.SingleResponse response = bookMapper.bookToBookDtoResponse(foundBook);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
     @DeleteMapping("/{library-Id}/{book-Id}/{member-Id}")
     public ResponseEntity deleteBookRental(@PathVariable("library-Id")@Positive Long libraryId,
                                          @PathVariable("book-Id")@Positive Long bookId,
@@ -167,12 +156,8 @@ public class BookController {
         foundMemberBook.setReturnedAt(LocalDate.now());
         memberBookRepository.save(foundMemberBook);
 
-        MemberBookDto.ReturnResponse response = new MemberBookDto.ReturnResponse();
-        response.setMemberId(foundMemberBook.getMember().getMemberId());
-        response.setLibraryId(foundMemberBook.getLibraryId());
-        response.setBookId(foundMemberBook.getBook().getBookId());
-        response.setCreatedAt(foundMemberBook.getCreatedAt());
-        response.setReturnedAt(foundMemberBook.getReturnedAt());
+        MemberBookDto.ReturnResponse response = memberBookMapper.ReturnMemberBookToMemberBookDtoResponse(foundMemberBook);
+
         response.setMessage("반납이 완료되었습니다.");
         if(foundMemberBook.getOverdueDays() == null) {
             response.setOverdueDays(0L);
@@ -180,9 +165,17 @@ public class BookController {
         if (foundMemberBook.getOverdueDays() != null && foundMemberBook.getOverdueDays() >0) {
             response.setOverdueDays(foundMemberBook.getOverdueDays());
             String availableDate = response.getReturnedAt().plusDays(response.getOverdueDays()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            response.setMessage("연체가 발생되어 "+response.getOverdueDays()+"일 동안 대여할 수 없습니다." +
-                   availableDate+"일부터 대여할 수 있습니다.");
+            response.setMessage("연체가 발생되어 "+response.getOverdueDays()+"일 동안 대여할 수 없습니다. " +
+                   availableDate+" 일부터 대여할 수 있습니다.");
         }
         return new ResponseEntity(response, HttpStatus.OK);
+    }
+    @GetMapping("/{library-Id}/{book-Id}")
+    public ResponseEntity findBook(@PathVariable("library-Id")@Positive Long libraryId,
+                                   @PathVariable("book-Id")@Positive Long bookId) {
+        LibraryBook libraryBook = libraryBookService.findLibraryBookByLibraryIdBookId(libraryId, bookId);
+        LibraryBookDto.Response response = libraryBookMapper.libraryBookToLibraryBookDtoResponse(libraryBook);
+        response.setUrl(url+libraryId+"/"+bookId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -21,6 +21,5 @@ public class LibraryBookDto {
         String bookPublisher;
         Book.BookStatus bookStatus;
         String url;
-
     }
 }

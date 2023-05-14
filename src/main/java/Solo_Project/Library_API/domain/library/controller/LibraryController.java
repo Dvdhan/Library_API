@@ -2,11 +2,7 @@ package Solo_Project.Library_API.domain.library.controller;
 
 import Solo_Project.Library_API.domain.Page.MultiResponse;
 import Solo_Project.Library_API.domain.Page.PageInfo;
-import Solo_Project.Library_API.domain.book.dto.BookDto;
 import Solo_Project.Library_API.domain.book.entity.Book;
-import Solo_Project.Library_API.domain.book.mapper.BookMapper;
-import Solo_Project.Library_API.domain.book.repository.BookRepository;
-import Solo_Project.Library_API.domain.book.service.BookService;
 import Solo_Project.Library_API.domain.libraryBook.dto.LibraryBookDto;
 import Solo_Project.Library_API.domain.libraryBook.entity.LibraryBook;
 import Solo_Project.Library_API.domain.libraryBook.mapper.LibraryBookMapper;
@@ -40,8 +36,6 @@ public class LibraryController {
 
     private MemberService memberService;
     private MemberMapper memberMapper;
-    private BookService bookService;
-    private BookMapper bookMapper;
 
     @Autowired
     private LibraryBookService libraryBookService;
@@ -51,17 +45,14 @@ public class LibraryController {
 
     @Autowired
     private LibraryMemberService libraryMemberService;
+
     @Autowired
     private LibraryMemberMapper libraryMemberMapper;
 
     public LibraryController(MemberService memberService,
-                             MemberMapper memberMapper,
-                             BookService bookService,
-                             BookMapper bookMapper) {
+                             MemberMapper memberMapper) {
         this.memberService = memberService;
         this.memberMapper = memberMapper;
-        this.bookService = bookService;
-        this.bookMapper = bookMapper;
     }
 
     private final String memberUrl = "http://localhost:8080/members/";

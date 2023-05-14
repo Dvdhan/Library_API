@@ -36,4 +36,11 @@ public interface MemberBookMapper {
     MemberBookDto.RentalHistoryResponse HistoryMemberBookToMemberBookDtoResponse(MemberBook memberBook);
     List<MemberBookDto.RentalHistoryResponse> HistoryMemberBooksToMemberBooksDtoResponse (List<MemberBook> memberBooks);
 
+    @Mapping(target = "memberId", source = "member.memberId")
+    @Mapping(target = "libraryId", source = "libraryId")
+    @Mapping(target = "bookId", source = "book.bookId")
+    @Mapping(target = "memberBookId", source = "memberBookId")
+    @Mapping(target = "bookTitle", source = "book.bookTitle")
+    MemberBookDto.ReturnResponse ReturnMemberBookToMemberBookDtoResponse(MemberBook memberBook);
+
 }

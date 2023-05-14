@@ -44,6 +44,8 @@ public class MemberBookDto {
         private Long memberId;
         private Long libraryId;
         private Long bookId;
+        private Long memberBookId;
+        private String bookTitle;
         private LocalDate createdAt;
         private LocalDate returnedAt;
         private Long overdueDays;
