@@ -21,18 +21,20 @@ public class MemberBookDto {
         private String bookTitle;
         private LocalDate createdAt;
         private LocalDate dueReturnDate;
-        private LocalDate returnedAt;
     }
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class RentalResponse {
+    public static class RentalHistoryResponse {
         private Long memberId;
         private Long libraryId;
         private Long bookId;
+        private Long memberBookId;
+        private String bookTitle;
         private LocalDate createdAt;
         private LocalDate dueReturnDate;
+        private LocalDate returnedDate;
     }
     @Getter
     @Setter

@@ -136,7 +136,7 @@ public class MemberController {
         PageInfo pageInfo = new PageInfo(memberBookPage.getNumber(), memberBookPage.getSize(),
                 memberBookPage.getTotalElements(), memberBookPage.getTotalPages());
 
-        List<MemberBookDto.Response> responses = memberBookMapper.memberBooksToMemberBooksDtoResponse(memberBooks);
+        List<MemberBookDto.RentalHistoryResponse> responses = memberBookMapper.HistoryMemberBooksToMemberBooksDtoResponse(memberBooks);
 
         return new ResponseEntity(
                 new MultiResponse<>(responses, pageInfo),HttpStatus.OK);

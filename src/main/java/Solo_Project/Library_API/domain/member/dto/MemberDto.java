@@ -19,13 +19,10 @@ public class MemberDto {
     public static class Post{
         @NotBlank
         String name;
-
         @NotBlank
         String phone;
-
         @Email
         String email;
-
         @NotNull(message = "Password cannot be null")
         @NotEmpty(message = "Password cannot be empty")
         String password;

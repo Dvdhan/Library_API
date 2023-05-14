@@ -14,6 +14,7 @@ import Solo_Project.Library_API.domain.member.entity.Member;
 import Solo_Project.Library_API.domain.member.service.MemberService;
 import Solo_Project.Library_API.domain.memberBook.dto.MemberBookDto;
 import Solo_Project.Library_API.domain.memberBook.entity.MemberBook;
+import Solo_Project.Library_API.domain.memberBook.mapper.MemberBookMapper;
 import Solo_Project.Library_API.domain.memberBook.repository.MemberBookRepository;
 import Solo_Project.Library_API.domain.memberBook.service.MemberBookService;
 import Solo_Project.Library_API.global.advice.BusinessLogicException;
@@ -63,6 +64,9 @@ public class BookController {
     @Autowired
     private LibraryMemberService libraryMemberService;
 
+    @Autowired
+    private MemberBookMapper memberBookMapper;
+
     @PostMapping("/{library-Id}/{book-Id}/{member-Id}")
     public ResponseEntity postBookRental(@PathVariable("library-Id")@Positive Long libraryId,
                                          @PathVariable("book-Id")@Positive Long bookId,
@@ -78,7 +82,6 @@ public class BookController {
 
             // daysSinceLastOverdue = 지난번 연체 발생한 날짜와 오늘을 DAY 기준으로 비교한 Long 변수.
             Long daysSinceLastOverdue = ChronoUnit.DAYS.between(libraryMember.getLastOverdueDate(), now);
-
             // libraryMember.getOverdueDays = penaltyDays
             // = 대여 날짜와 반납 날짜를 계산하여 14일이 넘을 경우 실제 값에서 14를 뺀 Long 변수. 즉 패널티 적용 기간.
             if(daysSinceLastOverdue < libraryMember.getOverdueDays()){
@@ -115,12 +118,7 @@ public class BookController {
         memberBook.setDueReturn(memberBook.getCreatedAt().plusDays(14));
         memberBookRepository.save(memberBook);
 
-        MemberBookDto.RentalResponse response = new MemberBookDto.RentalResponse();
-        response.setMemberId(memberBook.getMember().getMemberId());
-        response.setLibraryId(memberBook.getLibraryId());
-        response.setBookId(memberBook.getBook().getBookId());
-        response.setCreatedAt(memberBook.getCreatedAt());
-        response.setDueReturnDate(memberBook.getDueReturn());
+        MemberBookDto.Response response = memberBookMapper.memberBookToMemberBookDtoResponse(memberBook);
 
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }

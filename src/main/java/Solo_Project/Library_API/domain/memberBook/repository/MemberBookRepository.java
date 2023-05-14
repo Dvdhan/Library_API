@@ -17,6 +17,9 @@ import java.util.List;
 public interface MemberBookRepository extends JpaRepository<MemberBook, Long> {
     int countByMemberAndReturnedAtIsNull(Member member);
 
+    @Query("SELECT COUNT(mb) FROM MemberBook mb WHERE mb.member.memberId = :memberId AND mb.returnedAt IS NULL")
+    int countUnreturnedBooksByMember(@Param("memberId") Long memberId);
+
     @Query("SELECT mb FROM MemberBook mb WHERE mb.member.id =:memberId AND mb.book.id =:bookId AND mb.returnedAt IS NULL")
     MemberBook findByMember_IdAndBook_IdAndReturnedAtIsNull(Long memberId, Long bookId);
 
