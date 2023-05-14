@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 @RestController
@@ -74,9 +75,16 @@ public class BookController {
 
         if (libraryMember.getOverdueDays() != null && libraryMember.getOverdueDays() > 0) {
             LocalDate now = LocalDate.now();
+
+            // daysSinceLastOverdue = 지난번 연체 발생한 날짜와 오늘을 DAY 기준으로 비교한 Long 변수.
             Long daysSinceLastOverdue = ChronoUnit.DAYS.between(libraryMember.getLastOverdueDate(), now);
+
+            // libraryMember.getOverdueDays = penaltyDays
+            // = 대여 날짜와 반납 날짜를 계산하여 14일이 넘을 경우 실제 값에서 14를 뺀 Long 변수. 즉 패널티 적용 기간.
             if(daysSinceLastOverdue < libraryMember.getOverdueDays()){
-                String message = "당신은" + libraryMember.getOverdueDays() + "일의 연체 기록이 있습니다. 이 기간동안은 대여할 수 없습니다.";
+                LocalDate availableDate = libraryMember.getLastOverdueDate().plusDays(libraryMember.getOverdueDays());
+                String message = "당신은" + libraryMember.getOverdueDays() + "일의 연체 기록이 있습니다. 이 기간동안은 대여할 수 없습니다." +
+                        availableDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))+"부터 대여할 수 있습니다.";
                 return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
             }
         }
@@ -127,24 +135,23 @@ public class BookController {
     public ResponseEntity deleteBookRental(@PathVariable("library-Id")@Positive Long libraryId,
                                          @PathVariable("book-Id")@Positive Long bookId,
                                          @PathVariable("member-Id")@Positive Long memberId) throws Exception {
-        // 1. 반납하려는 책이 해당 도서관에 현재 대여중인 책인지 확인
-        // LibraryBook 객체를 주어진 LibraryId, bookId로 찾아서 대여중인지 확인. 만약 AVAILABLE 이라면 대여 중인 책이 아닙니다. 예외처리.
+
         LibraryBook foundLibraryBook = libraryBookService.findLibraryBookByLibraryIdBookId(libraryId,bookId);
         if (foundLibraryBook.getBookStatus() == Book.BookStatus.AVAILABLE) {
             throw new BusinessLogicException(ExceptionCode.RENTAL_HISTORY_NOT_FOUND);
         }
-        // 2. 반납하려는 책의 대여자와 실제 반납하고자 하는 사람이 동일 인물인지 비교.
-        // MemberBook 객체를 MemberId, bookId 으로 찾고, 주어진 memberId와 같은지 비교.
-        // 3. 같지 않다면 대여자가 다릅니다 예외 처리.
-        MemberBook foundMemberBook = memberBookService.findMemberBookByMemberIdBookId(memberId, bookId);
 
+        MemberBook foundMemberBook = memberBookService.findMemberBookByMemberIdBookId(memberId, bookId);
         if (foundMemberBook == null) {
             throw new BusinessLogicException(ExceptionCode.RENTAL_HISTORY_NOT_FOUND);
         }
 
+        // daysRented = 대여날짜 기준으로 현재 날을 DAY 단위로 비교한 변수.
         Long daysRented = ChronoUnit.DAYS.between(foundMemberBook.getCreatedAt(), LocalDate.now());
         Long overdueDays = 0L;
+        // 만일 daysRented 가 대여 기간인 14 일보다 길다면,
         if (daysRented > 14) {
+            // daysRented - 14 의 값을 연체 패널티 변수에 담음.
             overdueDays = daysRented - 14;
             foundMemberBook.setOverdueDays(overdueDays);
         }
@@ -152,10 +159,10 @@ public class BookController {
         if (libraryMember == null) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
+
         libraryMember.setOverdueDays(overdueDays);
         libraryMemberRepository.save(libraryMember);
 
-        // 4. 찾은 LibraryBook의 상태를 AVAILABLE으로 상태 변경, returnedAt을 now로 변경 후 저장.
         foundLibraryBook.setBookStatus(Book.BookStatus.AVAILABLE);
         libraryBookRepository.save(foundLibraryBook);
 
@@ -174,10 +181,10 @@ public class BookController {
         }
         if (foundMemberBook.getOverdueDays() != null && foundMemberBook.getOverdueDays() >0) {
             response.setOverdueDays(foundMemberBook.getOverdueDays());
+            String availableDate = response.getReturnedAt().plusDays(response.getOverdueDays()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             response.setMessage("연체가 발생되어 "+response.getOverdueDays()+"일 동안 대여할 수 없습니다." +
-                    response.getReturnedAt().plusDays(response.getOverdueDays())+"일부터 대여할 수 있습니다.");
+                   availableDate+"일부터 대여할 수 있습니다.");
         }
         return new ResponseEntity(response, HttpStatus.OK);
-
     }
 }
