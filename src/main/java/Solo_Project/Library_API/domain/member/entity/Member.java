@@ -3,6 +3,7 @@ package Solo_Project.Library_API.domain.member.entity;
 import Solo_Project.Library_API.domain.libraryMember.entity.LibraryMember;
 import Solo_Project.Library_API.domain.memberBook.entity.MemberBook;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,4 +44,13 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<MemberBook> memberBooks = new ArrayList<>();
+
+    public Member(Long memberId, String name, String phone, String email, String password, Long libraryId) {
+        this.memberId = memberId;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+        this.libraryId = libraryId;
+    }
 }

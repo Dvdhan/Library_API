@@ -35,6 +35,7 @@ public class MemberDto {
         long libraryId;
         long memberId;
         String name;
+        String phone;
         String email;
         String password;
         String url;
