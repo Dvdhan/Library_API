@@ -1,0 +1,136 @@
+= 도서 관리 API 애플리케이션
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+Han, Dahyun <dvd.han00@gmail.com>
+
+v1.0.0
+updated on 2023.05.17
+
+***
+== MemberController
+=== 회원 등록
+.request
+include::{snippets}/post-member/httpie-request.adoc[]
+
+.path-Parameter
+include::{snippets}/post-member/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/post-member/request-fields.adoc[]
+
+.response-body
+include::{snippets}/post-member/response-body.adoc[]
+
+.response-fields
+include::{snippets}/post-member/response-fields.adoc[]
+
+
+=== 회원 조회
+.request
+include::{snippets}/get-member/httpie-request.adoc[]
+
+.request-fields
+include::{snippets}/get-member/path-parameters.adoc[]
+
+.response
+include::{snippets}/get-member/response-body.adoc[]
+
+.response-fields
+include::{snippets}/get-member/response-fields.adoc[]
+
+
+=== 회원 삭제
+.request
+include::{snippets}/delete-member/httpie-request.adoc[]
+
+.request-fields
+include::{snippets}/delete-member/path-parameters.adoc[]
+
+.response
+include::{snippets}/delete-member/http-response.adoc[]
+
+
+=== 회원 대여 기록 조회
+.request
+include::{snippets}/get-member_Rental_history/httpie-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-member_Rental_history/path-parameters.adoc[]
+
+.request-pathParameter
+include::{snippets}/get-member_Rental_history/request-parameters.adoc[]
+
+.response
+include::{snippets}/get-member_Rental_history/response-body.adoc[]
+
+== BookController
+=== 도서 대여
+.request
+include::{snippets}/post-bookRental/httpie-request.adoc[]
+
+.request-fields
+include::{snippets}/post-bookRental/path-parameters.adoc[]
+
+.response
+include::{snippets}/post-bookRental/response-body.adoc[]
+
+.response-fields
+include::{snippets}/post-bookRental/response-fields.adoc[]
+
+=== 대여 도서 반납
+.request
+include::{snippets}/delete-BookRental/httpie-request.adoc[]
+
+.request-fields
+include::{snippets}/delete-BookRental/path-parameters.adoc[]
+
+.response
+include::{snippets}/delete-BookRental/response-body.adoc[]
+
+.response-fields
+include::{snippets}/delete-BookRental/response-fields.adoc[]
+
+=== 도서 검색
+.request
+include::{snippets}/get-book/httpie-request.adoc[]
+
+.request-fields
+include::{snippets}/get-book/path-parameters.adoc[]
+
+.response
+include::{snippets}/get-book/response-body.adoc[]
+
+.response-fields
+include::{snippets}/get-book/response-fields.adoc[]
+
+== LibraryController
+=== 도서관 회원 조회
+.request
+include::{snippets}/get-library_members/httpie-request.adoc[]
+
+.request-fields
+include::{snippets}/get-library_members/path-parameters.adoc[]
+
+.response
+include::{snippets}/get-library_members/response-body.adoc[]
+
+=== 도서관 도서 조회
+.request
+include::{snippets}/get-library_books/httpie-request.adoc[]
+
+.request-fields
+include::{snippets}/get-library_books/path-parameters.adoc[]
+
+.request-pathParameter
+include::{snippets}/get-library_books/request-parameters.adoc[]
+
+.response
+include::{snippets}/get-library_books/response-body.adoc[]
+
+
+
+
