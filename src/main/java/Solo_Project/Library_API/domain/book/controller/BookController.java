@@ -132,7 +132,6 @@ public class BookController {
         if (foundMemberBook == null) {
             throw new BusinessLogicException(ExceptionCode.RENTAL_HISTORY_NOT_FOUND);
         }
-
         // daysRented = 대여날짜 기준으로 현재 날을 DAY 단위로 비교한 변수.
         Long daysRented = ChronoUnit.DAYS.between(foundMemberBook.getCreatedAt(), LocalDate.now());
         Long overdueDays = 0L;
@@ -158,11 +157,10 @@ public class BookController {
 
         MemberBookDto.ReturnResponse response = memberBookMapper.ReturnMemberBookToMemberBookDtoResponse(foundMemberBook);
 
-        response.setMessage("반납이 완료되었습니다.");
         if(foundMemberBook.getOverdueDays() == null) {
             response.setOverdueDays(0L);
-        }
-        if (foundMemberBook.getOverdueDays() != null && foundMemberBook.getOverdueDays() >0) {
+            response.setMessage("반납이 완료되었습니다.");
+        }else if (foundMemberBook.getOverdueDays() != null && foundMemberBook.getOverdueDays() >0) {
             response.setOverdueDays(foundMemberBook.getOverdueDays());
             String availableDate = response.getReturnedAt().plusDays(response.getOverdueDays()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             response.setMessage("연체가 발생되어 "+response.getOverdueDays()+"일 동안 대여할 수 없습니다. " +

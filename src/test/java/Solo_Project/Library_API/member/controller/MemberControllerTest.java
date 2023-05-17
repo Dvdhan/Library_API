@@ -51,7 +51,9 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(MemberController.class)
 @AutoConfigureRestDocs
@@ -81,18 +83,6 @@ public class MemberControllerTest {
     @MockBean
     private MemberBookMapper memberBookMapper;
 
-// 1. postMember()
-// 회원 등록이 되는지 주 목적
-// 1. 타겟 메서드에서 파라미터로 받는 libraryId를 생성.
-// 2. 회원 정보를 포함하여 Dto.post 객체 생성.
-// 3. 타겟 메서드에서 mapper 를 사용하여 dto -> entity 변경하므로 given().willReturn() 사용
-// 4. 타겟 메서드에서 memberService 를 사용하여 createMember() 메서드 실행했으므로
-// given().willReturn() 메서드 사용
-// 5. 본래는 회원 등록이 되는지 확인하는 것이므로 libraryMember 생성은 생략
-// 6. 타겟 메서드에서 응답으로 entity -> response 사용하므로 Dto.Response 객체 생성하여 필드값 선언
-// 7. given().willReturn() 사용하여 mapper 의 entity -> dto.response 사용.
-// 8. 응답을 나타내는 ResultActions actions 선언해줌
-// 9. actions (응답 데이터) 의 필드가 post 로 받은 (요청 데이터) 값과 같을거라는 예상 문법 사용.
     @Test
     public void postMemberTest() throws Exception {
         Long libraryId = 1L;
@@ -148,14 +138,6 @@ public class MemberControllerTest {
                         )
                 ));
     }
-    // 2. getMember()
-// 1. 단일 회원 을 조회하는 메서드
-// 2. 파라미터로 libraryId, memberId 를 받으니 변수 생성
-// 3. 새로운 Member 객체 생성
-// 4. given().willReturn() 사용하여 타겟 메서드에서 사용한 memberService.findMember() 메서드 사용
-// 5. 응답 데이터인 Dto.Response 를 생성하여 생성한 Member 객체와 같은 정보를 설정
-// 6. 응답 데이터 ResultActions 설정해주고 요청보낼 주소와 HttpMethod 종류를 입력
-// 7. 응답 데이터의 필드들이 생성한 response 객체의 필드와 같은지 테스트 진행
     @Test
     public void getMemberTest() throws Exception {
         Long libraryId = 1L;
@@ -201,25 +183,14 @@ public class MemberControllerTest {
                         )
                         ));
     }
-// 3. deleteMember()
     @Test
     public void deleteMemberTest() throws Exception {
         Long libraryId = 1L;
         Long memberId = 1L;
 
-// 1. 타겟 메서드에서 libraryMemberService 의 메서드를 통해 LibraryMember 객체를 만들고 있음
-//libraryMember 객체를 생성하고 LibraryMember 엔티티에서 가지고 있는 Library,Member 객체를 생성하여 할당
-// 타겟 메서드에서 사용한 libraryMemberService 의 메서드 동작을 given().willReturn() 으로 사용
-// 해당 메서드가 제대로 동작하려면 미반납된 memberBook 이 없어야 하므로
-// given().willReturn() 메서드에서 Collections.emptyList() 사용
-
         LibraryMember libraryMember = new LibraryMember();
-        Library library = new Library();
-        libraryMember.setLibrary(library);
-        Member member = new Member();
-        libraryMember.setMember(member);
-
         given(libraryMemberService.findByLibrary_IdAndMember_Id(Mockito.any(Long.class),Mockito.any(Long.class))).willReturn(libraryMember);
+        given(libraryMemberService.findByLibrary_IdAndMember_Id(Mockito.any(Long.class),Mockito.any(Long.class))).willReturn(new LibraryMember());
         given(memberBookRepository.findByMember_Id(Mockito.any(Long.class))).willReturn(Collections.emptyList());
 
         ResultActions actions =
@@ -232,8 +203,6 @@ public class MemberControllerTest {
                 .andDo(document("delete-member",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
-                        // pathParameters() 메서드는 URL의 경로에 주어진 파라미터가 문서화되는데 사용되며,
-                        // 이 매개변수가 무엇인지 설명하는 란이다.
                         pathParameters(
                                 parameterWithName("libraryId").description("도서관 식별자"),
                                 parameterWithName("memberId").description("회원 식별자")
@@ -244,33 +213,11 @@ public class MemberControllerTest {
         verify(memberService,times(1)).deleteMember(Mockito.any(Long.class));
 
     }
-// 4. getRentalHistory()
     @Test
     public void getRentalHistoryTest() throws Exception {
-// 회원이 대여기록 (memberBook)이 있는지 확인
-// <대여 기록이 있다는 가정>
-// 1. MemberBook 생성
-// 2. MemberBook 엔티티가 가지고 있는 Member, Book 객체를 생성.
-// 3. 생성한 Member, Book 객체를 MemberBook 에 할당.
-// 4. 타겟 메서드에서 List<MemberBook> 객체를 Page<MemberBook> 으로부터 생성하므로
-// List<MemberBook> 객체를 생성하고 memberBook 을 추가함.
-// 5. 타겟 메서드처럼 Page<MemberBook> 를 생성하여 List<MemberBook> 객체를 전달함.
-// 6. 타겟 메서드에서 Page<MemberBook> 객체를 memberBookService 의 메서드를 통해 생성했으므로
-// 생성해둔 Page<MemberBook> 객체를 given().willReturn() 메서드에 사용.
-// 7. 타겟 메서드에서 응답으로 List<response> 를 사용했으므로 단일 response 객체를 생성.
-// 8. List<response> responses 생성하여 단일 response 를 추가해줌.
-// 9. 생성한 List<response> responses 를 반환하기 위해
-// 타겟 메서드에서 사용한 memberBookMapper 를 given().willReturn() 메서드로 사용.
-// 10. Page 형태의 요청이므로 page, size 값을 param() 메서드를 사용하여 전달함.
         Long memberId = 1L;
 
-        Member member = new Member();
-        member.setMemberId(memberId);
-        Book book = new Book();
-
         MemberBook memberBook = new MemberBook();
-        memberBook.setMember(member);
-        memberBook.setBook(book);
 
         List<MemberBook> memberBooks = new ArrayList<>();
         memberBooks.add(memberBook);
@@ -291,6 +238,7 @@ public class MemberControllerTest {
 
         List<MemberBookDto.RentalHistoryResponse> responses = new ArrayList<>();
         responses.add(response);
+
         given(memberBookMapper.HistoryMemberBooksToMemberBooksDtoResponse(Mockito.any(List.class))).willReturn(responses);
 
         ResultActions actions =
