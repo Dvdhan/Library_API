@@ -24,6 +24,7 @@ public class Book {
     @Column
     private String bookPublisher;
 
+    @Getter
     public enum BookStatus {
         AVAILABLE("대여 가능"),
         UNAVAILABLE("대여 불가");
@@ -41,4 +42,11 @@ public class Book {
 
     @OneToMany(mappedBy = "book")
     private List<LibraryBook> libraryBooks = new ArrayList<>();
+
+    public Book(Long bookId, String bookTitle, String bookAuthor, String bookPublisher) {
+        this.bookId = bookId;
+        this.bookTitle = bookTitle;
+        this.bookAuthor = bookAuthor;
+        this.bookPublisher = bookPublisher;
+    }
 }

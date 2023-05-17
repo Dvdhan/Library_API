@@ -335,7 +335,7 @@ public class BookControllerTest {
                 .andExpect(jsonPath("$.bookStatus").value(response.getBookStatus().toString()))
                 .andExpect(jsonPath("$.url").value(response.getUrl()))
                 .andDo(document(
-                        "find-book",
+                        "get-book",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         pathParameters(
