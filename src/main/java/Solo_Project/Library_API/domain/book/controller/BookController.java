@@ -169,7 +169,7 @@ public class BookController {
         return new ResponseEntity(response, HttpStatus.OK);
     }
     @GetMapping("/{library-Id}/{book-Id}")
-    public ResponseEntity findBook(@PathVariable("library-Id")@Positive Long libraryId,
+    public ResponseEntity getBook(@PathVariable("library-Id")@Positive Long libraryId,
                                    @PathVariable("book-Id")@Positive Long bookId) {
         LibraryBook libraryBook = libraryBookService.findLibraryBookByLibraryIdBookId(libraryId, bookId);
         LibraryBookDto.Response response = libraryBookMapper.libraryBookToLibraryBookDtoResponse(libraryBook);

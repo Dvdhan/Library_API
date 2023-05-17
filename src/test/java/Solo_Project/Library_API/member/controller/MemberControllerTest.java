@@ -259,7 +259,7 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.data[0].dueReturnDate").value(response.getDueReturnDate().toString()))
                 .andExpect(jsonPath("$.data[0].returnedDate").value(response.getReturnedDate().toString()))
                 .andDo(print())
-                .andDo(document("get-member_history",
+                .andDo(document("get-member_Rental_history",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         pathParameters(
