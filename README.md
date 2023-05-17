@@ -13,7 +13,8 @@
 ![image](https://user-images.githubusercontent.com/105369104/236761214-72437a57-8a9e-41b4-87ca-3dd2f87969d7.png)
 
 ## 4. API 명세서
-https://documenter.getpostman.com/view/24692056/2s93eYTrS6
+POSTMAN : https://documenter.getpostman.com/view/24692056/2s93eYTrS6
+Spring RestDocs : https://url.kr/qksde8
 
 ## 5. 컨벤션
 
