@@ -298,7 +298,7 @@ public class BookControllerTest {
                 ));
     }
     @Test
-    public void findBookTest() throws Exception {
+    public void getBookTest() throws Exception {
         Long libraryId = 1L;
         Long bookId = 1L;
 
