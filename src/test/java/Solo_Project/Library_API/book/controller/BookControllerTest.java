@@ -26,6 +26,9 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -34,6 +37,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import static Solo_Project.Library_API.util.ApiDocumentUtils.getRequestPreProcessor;
@@ -42,8 +46,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -354,6 +357,85 @@ public class BookControllerTest {
                                         fieldWithPath("url").type(JsonFieldType.STRING).description("도서 조회 url")
                                 )
                         )
+                ));
+    }
+    @Test
+    public void getABookTest() throws Exception {
+        Long bookId = 1L;
+        Book book = new Book(bookId,"해리포터","JK롤링","A출판사");
+
+        LibraryBook libraryBook = new LibraryBook();
+        libraryBook.setBook(book);
+        libraryBook.setBookStatus(Book.BookStatus.AVAILABLE);
+
+        List<LibraryBook> libraryBooks = new ArrayList<>();
+        libraryBooks.add(libraryBook);
+
+        Page<LibraryBook> libraryBookPage = new PageImpl<>(libraryBooks);
+        given(libraryBookService.findAllLibraryBooksByBookId(Mockito.any(Long.class),Mockito.any(Integer.class),Mockito.any(Integer.class))).willReturn(libraryBookPage);
+
+        LibraryBookDto.Response response = new LibraryBookDto.Response();
+        response.setLibraryId(1L);
+        response.setBookId(libraryBook.getBook().getBookId());
+        response.setLibraryBookId(1L);
+        response.setBookTitle(libraryBook.getBook().getBookTitle());
+        response.setBookAuthor(libraryBook.getBook().getBookAuthor());
+        response.setBookPublisher(libraryBook.getBook().getBookPublisher());
+        response.setBookStatus(libraryBook.getBookStatus());
+
+        List<LibraryBookDto.Response> responses = new ArrayList<>();
+        responses.add(response);
+
+        given(libraryBookMapper.libraryBooksToLibraryBooksDtoResponse(Mockito.any(List.class))).willReturn(responses);
+
+        ResultActions actions =
+                mockMvc.perform(
+                        RestDocumentationRequestBuilders.get("/books/{bookId}",bookId)
+                                .param("page","1")
+                                .param("size","10")
+                                .accept(MediaType.APPLICATION_JSON)
+                );
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data[0].libraryId").value(response.getLibraryId()))
+                .andExpect(jsonPath("$.data[0].bookId").value(response.getBookId()))
+                .andExpect(jsonPath("$.data[0].libraryBookId").value(response.getLibraryBookId()))
+                .andExpect(jsonPath("$.data[0].bookTitle").value(response.getBookTitle()))
+                .andExpect(jsonPath("$.data[0].bookAuthor").value(response.getBookAuthor()))
+                .andExpect(jsonPath("$.data[0].bookPublisher").value(response.getBookPublisher()))
+                .andExpect(jsonPath("$.data[0].bookStatus").value(response.getBookStatus().toString()))
+                .andExpect(jsonPath("$.data[0].url").value(response.getUrl()))
+//                .andExpect(jsonPath("$.pageinfo.page").value(libraryBookPage.getNumber()))
+//                .andExpect(jsonPath("$.pageinfo.size").value(libraryBookPage.getSize()))
+//                .andExpect(jsonPath("$.pageinfo.totalElements").value(libraryBookPage.getTotalElements()))
+//                .andExpect(jsonPath("$.pageinfo.totalPages").value(libraryBookPage.getTotalPages()))
+
+                .andDo(document(
+                        "get-aBookFromAllLibraries",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("bookId").description("검색할 도서 Id")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("검색 결과 페이지"),
+                                parameterWithName("size").description("검색 결과 페이지에 표시될 최대 개수")
+                        )
+//                        ,responseFields(
+//                                List.of(
+//                                        fieldWithPath("libraryId").type(JsonFieldType.NUMBER).description("소속 도서관 ID"),
+//                                        fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("검색한 도서 ID"),
+//                                        fieldWithPath("libraryBookId").type(JsonFieldType.NUMBER).description("도서관에 보관중인 책 ID"),
+//                                        fieldWithPath("bookTitle").type(JsonFieldType.STRING).description("검색한 도서 이름"),
+//                                        fieldWithPath("bookAuthor").type(JsonFieldType.STRING).description("검색한 도서 저자"),
+//                                        fieldWithPath("bookPublisher").type(JsonFieldType.STRING).description("검색한 도서 출판사"),
+//                                        fieldWithPath("bookStatus").type(JsonFieldType.STRING).description("검색한 도서의 대여 가능 여부")
+////                                        fieldWithPath("pageinfo.page").description("Current page of the book list"),
+////                                        fieldWithPath("pageinfo.size").description("Size of the book list per page"),
+////                                        fieldWithPath("pageinfo.totalElements").description("Total elements in all pages"),
+////                                        fieldWithPath("pageinfo.totalPages").description("Total number of pages")
+//                                )
+//                        )
                 ));
     }
 }

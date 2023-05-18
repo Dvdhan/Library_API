@@ -27,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -34,6 +35,8 @@ import static Solo_Project.Library_API.util.ApiDocumentUtils.getRequestPreProces
 import static Solo_Project.Library_API.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -134,6 +137,7 @@ public class LibraryControllerTest {
         LibraryBook libraryBook = new LibraryBook();
         libraryBook.setBookStatus(Book.BookStatus.AVAILABLE);
         libraryBook.setBook(book);
+
         Library library = new Library();
         library.setLibraryId(libraryId);
         libraryBook.setLibrary(library);
@@ -184,6 +188,17 @@ public class LibraryControllerTest {
                                 parameterWithName("page").description("도서 목록 표시 페이지"),
                                 parameterWithName("size").description("도서 목록 페이지당 최대 표시 수")
                         )
+//                        ,responseFields(
+//                                List.of(
+//                                        fieldWithPath("libraryId").type(JsonFieldType.NUMBER).description("소속 도서관 ID"),
+//                                        fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("검색한 도서 ID"),
+//                                        fieldWithPath("libraryBookId").type(JsonFieldType.NUMBER).description("도서관에 보관중인 책 ID"),
+//                                        fieldWithPath("bookTitle").type(JsonFieldType.STRING).description("검색한 도서 이름"),
+//                                        fieldWithPath("bookAuthor").type(JsonFieldType.STRING).description("검색한 도서 저자"),
+//                                        fieldWithPath("bookPublisher").type(JsonFieldType.STRING).description("검색한 도서 출판사"),
+//                                        fieldWithPath("bookStatus").type(JsonFieldType.STRING).description("검색한 도서의 대여 가능 여부")
+//                                )
+//                        )
                 ));
     }
 }

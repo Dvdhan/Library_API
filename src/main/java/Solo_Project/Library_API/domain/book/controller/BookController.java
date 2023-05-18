@@ -27,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -175,6 +176,7 @@ public class BookController {
         }
         return new ResponseEntity(response, HttpStatus.OK);
     }
+
     @GetMapping("/{library-Id}/{book-Id}")
     public ResponseEntity getBook(@PathVariable("library-Id")@Positive Long libraryId,
                                    @PathVariable("book-Id")@Positive Long bookId) {
@@ -183,19 +185,24 @@ public class BookController {
         response.setUrl(url+libraryId+"/"+bookId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @GetMapping("{book-Id}")
-    public ResponseEntity getABook(@PathVariable("book-Id")@Positive Long bookId,
-                                   @PageableDefault(size = 10, page = 0)Pageable pageable){
-        Page<LibraryBook> libraryBookPage = libraryBookService.findAllLibraryBooksByBookId(bookId, pageable);
 
-        PageInfo pageInfo = new PageInfo(libraryBookPage.getNumber(), libraryBookPage.getSize(),
-                libraryBookPage.getTotalElements(), libraryBookPage.getTotalPages());
+    // JUnit으로 RestDocs 하려면 이 메서드는 주석처리하고 해야함.
+    @Transactional
+    @GetMapping("/{bookId}")
+    public ResponseEntity getABook(@PathVariable("bookId")@Positive Long bookId,
+                                   @Positive @RequestParam int page,
+                                   @Positive @RequestParam int size){
+        Page<LibraryBook> libraryBookPage = libraryBookService.findAllLibraryBooksByBookId(bookId, page-1, size);
+
+        PageInfo pageInfo = new PageInfo(
+                libraryBookPage.getNumber(),
+                libraryBookPage.getSize(),
+                libraryBookPage.getTotalElements(),
+                libraryBookPage.getTotalPages());
 
         List<LibraryBook> libraryBooks = libraryBookPage.getContent();
-
         List<LibraryBookDto.Response> responses = libraryBookMapper.libraryBooksToLibraryBooksDtoResponse(libraryBooks);
-
-
+        responses.stream().forEach(x->x.setUrl(url+bookId));
 
         return new ResponseEntity(
                 new MultiResponse<>(responses, pageInfo),HttpStatus.OK);

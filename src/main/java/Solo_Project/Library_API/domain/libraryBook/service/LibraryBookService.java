@@ -24,7 +24,7 @@ public class LibraryBookService {
         return libraryBookRepository.findLibraryBookByLibraryIdBookId(libraryId,bookId);
     }
 
-    public Page<LibraryBook> findAllLibraryBooksByBookId(Long bookId, Pageable pageable) {
-        return libraryBookRepository.findAllLibraryBooksByBookId(bookId, pageable);
+    public Page<LibraryBook> findAllLibraryBooksByBookId(Long bookId, int page, int size) {
+        return libraryBookRepository.findAllLibraryBooksByBookId(bookId, PageRequest.of(page, size));
     }
 }

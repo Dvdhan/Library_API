@@ -3,6 +3,7 @@ package Solo_Project.Library_API.domain.book.entity;
 import Solo_Project.Library_API.domain.libraryBook.entity.LibraryBook;
 import Solo_Project.Library_API.domain.memberBook.entity.MemberBook;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name="book")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

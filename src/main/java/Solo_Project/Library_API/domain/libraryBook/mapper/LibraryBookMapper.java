@@ -22,6 +22,5 @@ public interface LibraryBookMapper {
     @Mapping(target = "bookPublisher", source = "book.bookPublisher")
     @Mapping(target = "bookStatus", source = "bookStatus")
     LibraryBookDto.Response libraryBookToLibraryBookDtoResponse(LibraryBook libraryBook);
-
     List<LibraryBookDto.Response> libraryBooksToLibraryBooksDtoResponse(List<LibraryBook> libraryBooks);
 }
