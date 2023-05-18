@@ -13,7 +13,9 @@
 ![image](https://user-images.githubusercontent.com/105369104/236761214-72437a57-8a9e-41b4-87ca-3dd2f87969d7.png)
 
 ## 4. API 명세서
-https://documenter.getpostman.com/view/24692056/2s93eYTrS6
+### POSTMAN : https://documenter.getpostman.com/view/24692056/2s93eYTrS6
+
+### Spring RestDocs : http://localhost:63342/ead61b63-b0a6-4ff2-a49a-86be75ccfd1a/source?file=C%3A%2FUsers%2Fhan20%2Fhan%2FLibrary_API%2Fsrc%2Fdocs%2Fasciidoc%2Findex.adoc&mac=AouP5a/BX3Vs+nSG/3HPSmBJGPo2fjJ6AeResS3rd5I=&projectUrl=C%3A%2FUsers%2Fhan20%2Fhan%2FLibrary_API
 
 ## 5. 컨벤션
 
