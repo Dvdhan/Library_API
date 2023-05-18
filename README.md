@@ -15,7 +15,7 @@
 ## 4. API 명세서
 ### POSTMAN : https://documenter.getpostman.com/view/24692056/2s93eYTrS6
 
-### Spring RestDocs : http://localhost:63342/ead61b63-b0a6-4ff2-a49a-86be75ccfd1a/source?file=C%3A%2FUsers%2Fhan20%2Fhan%2FLibrary_API%2Fsrc%2Fdocs%2Fasciidoc%2Findex.adoc&mac=ikzs3YHJFCZ+tTD2NnJiKB+dF5lnQfydzP3kfhqZZI4=&projectUrl=C%3A%2FUsers%2Fhan20%2Fhan%2FLibrary_API#_%ED%9A%8C%EC%9B%90_%EB%8C%80%EC%97%AC_%EA%B8%B0%EB%A1%9D_%EC%A1%B0%ED%9A%8C
+### Spring RestDocs : http://localhost:63342/ead61b63-b0a6-4ff2-a49a-86be75ccfd1a/source?file=C%3A%2FUsers%2Fhan20%2Fhan%2FLibrary_API%2Fsrc%2Fdocs%2Fasciidoc%2Findex.adoc&mac=AouP5a/BX3Vs+nSG/3HPSmBJGPo2fjJ6AeResS3rd5I=&projectUrl=C%3A%2FUsers%2Fhan20%2Fhan%2FLibrary_API
 
 ## 5. 컨벤션
 
