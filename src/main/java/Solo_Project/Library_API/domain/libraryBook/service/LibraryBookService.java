@@ -5,6 +5,7 @@ import Solo_Project.Library_API.domain.libraryBook.repository.LibraryBookReposit
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,4 +24,7 @@ public class LibraryBookService {
         return libraryBookRepository.findLibraryBookByLibraryIdBookId(libraryId,bookId);
     }
 
+    public Page<LibraryBook> findAllLibraryBooksByBookId(Long bookId, Pageable pageable) {
+        return libraryBookRepository.findAllLibraryBooksByBookId(bookId, pageable);
+    }
 }

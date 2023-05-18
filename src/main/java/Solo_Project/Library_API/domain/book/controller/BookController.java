@@ -1,5 +1,7 @@
 package Solo_Project.Library_API.domain.book.controller;
 
+import Solo_Project.Library_API.domain.Page.MultiResponse;
+import Solo_Project.Library_API.domain.Page.PageInfo;
 import Solo_Project.Library_API.domain.book.entity.Book;
 import Solo_Project.Library_API.domain.libraryBook.dto.LibraryBookDto;
 import Solo_Project.Library_API.domain.libraryBook.entity.LibraryBook;
@@ -20,6 +22,9 @@ import Solo_Project.Library_API.global.advice.BusinessLogicException;
 import Solo_Project.Library_API.global.advice.ExceptionCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -29,6 +34,8 @@ import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.List;
 
 @RestController
 @Validated
@@ -175,5 +182,22 @@ public class BookController {
         LibraryBookDto.Response response = libraryBookMapper.libraryBookToLibraryBookDtoResponse(libraryBook);
         response.setUrl(url+libraryId+"/"+bookId);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @GetMapping("{book-Id}")
+    public ResponseEntity getABook(@PathVariable("book-Id")@Positive Long bookId,
+                                   @PageableDefault(size = 10, page = 0)Pageable pageable){
+        Page<LibraryBook> libraryBookPage = libraryBookService.findAllLibraryBooksByBookId(bookId, pageable);
+
+        PageInfo pageInfo = new PageInfo(libraryBookPage.getNumber(), libraryBookPage.getSize(),
+                libraryBookPage.getTotalElements(), libraryBookPage.getTotalPages());
+
+        List<LibraryBook> libraryBooks = libraryBookPage.getContent();
+
+        List<LibraryBookDto.Response> responses = libraryBookMapper.libraryBooksToLibraryBooksDtoResponse(libraryBooks);
+
+
+
+        return new ResponseEntity(
+                new MultiResponse<>(responses, pageInfo),HttpStatus.OK);
     }
 }

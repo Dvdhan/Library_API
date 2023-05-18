@@ -15,4 +15,7 @@ public interface LibraryBookRepository extends JpaRepository<LibraryBook, Long> 
 
     @Query("SELECT lb FROM LibraryBook lb JOIN lb.book b WHERE lb.library.id = :libraryId AND lb.book.id = :bookId")
     public LibraryBook findLibraryBookByLibraryIdBookId(@Param("libraryId") Long libraryId, @Param("bookId") Long bookId);
+
+    @Query("SELECT lb FROM LibraryBook lb WHERE lb.book.id = :bookId")
+    public Page<LibraryBook> findAllLibraryBooksByBookId(@Param("bookId")Long bookId, Pageable pageable);
 }
