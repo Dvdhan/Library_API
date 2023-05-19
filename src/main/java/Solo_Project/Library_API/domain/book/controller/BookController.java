@@ -186,7 +186,6 @@ public class BookController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // JUnit으로 RestDocs 하려면 이 메서드는 주석처리하고 해야함.
     @Transactional
     @GetMapping("/{bookId}")
     public ResponseEntity getABook(@PathVariable("bookId")@Positive Long bookId,
