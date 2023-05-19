@@ -405,10 +405,6 @@ public class BookControllerTest {
                 .andExpect(jsonPath("$.data[0].bookPublisher").value(response.getBookPublisher()))
                 .andExpect(jsonPath("$.data[0].bookStatus").value(response.getBookStatus().toString()))
                 .andExpect(jsonPath("$.data[0].url").value(response.getUrl()))
-//                .andExpect(jsonPath("$.pageinfo.page").value(libraryBookPage.getNumber()))
-//                .andExpect(jsonPath("$.pageinfo.size").value(libraryBookPage.getSize()))
-//                .andExpect(jsonPath("$.pageinfo.totalElements").value(libraryBookPage.getTotalElements()))
-//                .andExpect(jsonPath("$.pageinfo.totalPages").value(libraryBookPage.getTotalPages()))
 
                 .andDo(document(
                         "get-aBookFromAllLibraries",
@@ -420,22 +416,25 @@ public class BookControllerTest {
                         requestParameters(
                                 parameterWithName("page").description("검색 결과 페이지"),
                                 parameterWithName("size").description("검색 결과 페이지에 표시될 최대 개수")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data[].libraryId").type(JsonFieldType.NUMBER).description("소속 도서관 ID"),
+                                        fieldWithPath("data[].bookId").type(JsonFieldType.NUMBER).description("검색한 도서 ID"),
+                                        fieldWithPath("data[].libraryBookId").type(JsonFieldType.NUMBER).description("도서관에 보관중인 책 ID"),
+                                        fieldWithPath("data[].bookTitle").type(JsonFieldType.STRING).description("검색한 도서 이름"),
+                                        fieldWithPath("data[].bookAuthor").type(JsonFieldType.STRING).description("검색한 도서 저자"),
+                                        fieldWithPath("data[].bookPublisher").type(JsonFieldType.STRING).description("검색한 도서 출판사"),
+                                        fieldWithPath("data[].bookStatus").type(JsonFieldType.STRING).description("검색한 도서의 대여 가능 여부"),
+                                        fieldWithPath("data[].url").type(JsonFieldType.STRING).description("url"),
+
+                                        fieldWithPath("pageinfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
+                                        fieldWithPath("pageinfo.page").description("리스트의 현재 페이지"),
+                                        fieldWithPath("pageinfo.size").description("페이지당 최대 표시 수"),
+                                        fieldWithPath("pageinfo.totalElements").description("모든 페이지의 총 표시 수"),
+                                        fieldWithPath("pageinfo.totalPages").description("총 페이지 수 ")
+                                )
                         )
-//                        ,responseFields(
-//                                List.of(
-//                                        fieldWithPath("libraryId").type(JsonFieldType.NUMBER).description("소속 도서관 ID"),
-//                                        fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("검색한 도서 ID"),
-//                                        fieldWithPath("libraryBookId").type(JsonFieldType.NUMBER).description("도서관에 보관중인 책 ID"),
-//                                        fieldWithPath("bookTitle").type(JsonFieldType.STRING).description("검색한 도서 이름"),
-//                                        fieldWithPath("bookAuthor").type(JsonFieldType.STRING).description("검색한 도서 저자"),
-//                                        fieldWithPath("bookPublisher").type(JsonFieldType.STRING).description("검색한 도서 출판사"),
-//                                        fieldWithPath("bookStatus").type(JsonFieldType.STRING).description("검색한 도서의 대여 가능 여부")
-////                                        fieldWithPath("pageinfo.page").description("Current page of the book list"),
-////                                        fieldWithPath("pageinfo.size").description("Size of the book list per page"),
-////                                        fieldWithPath("pageinfo.totalElements").description("Total elements in all pages"),
-////                                        fieldWithPath("pageinfo.totalPages").description("Total number of pages")
-//                                )
-//                        )
                 ));
     }
 }

@@ -96,16 +96,16 @@ include::{snippets}/delete-BookRental/response-fields.adoc[]
 
 === 도서 검색
 .request
-include::{snippets}/get-book/httpie-request.adoc[]
+include::{snippets}/get-aBookFromAllLibraries/httpie-request.adoc[]
 
 .request-fields
-include::{snippets}/get-book/path-parameters.adoc[]
+include::{snippets}/get-aBookFromAllLibraries/path-parameters.adoc[]
 
 .response
-include::{snippets}/get-book/response-body.adoc[]
+include::{snippets}/get-aBookFromAllLibraries/response-body.adoc[]
 
 .response-fields
-include::{snippets}/get-book/response-fields.adoc[]
+include::{snippets}/get-aBookFromAllLibraries/response-fields.adoc[]
 
 == LibraryController
 === 도서관 회원 조회
@@ -115,8 +115,15 @@ include::{snippets}/get-library_members/httpie-request.adoc[]
 .request-fields
 include::{snippets}/get-library_members/path-parameters.adoc[]
 
+.request-pathParameter
+include::{snippets}/get-library_members/request-parameters.adoc[]
+
 .response
 include::{snippets}/get-library_members/response-body.adoc[]
+
+.response-fields
+include::{snippets}/get-library_members/response-fields.adoc[]
+
 
 === 도서관 도서 조회
 .request
@@ -130,6 +137,10 @@ include::{snippets}/get-library_books/request-parameters.adoc[]
 
 .response
 include::{snippets}/get-library_books/response-body.adoc[]
+
+.response-fields
+include::{snippets}/get-library_books/response-fields.adoc[]
+
 
 
 
