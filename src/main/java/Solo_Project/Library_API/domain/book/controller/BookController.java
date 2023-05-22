@@ -135,6 +135,7 @@ public class BookController {
         if (foundLibraryBook.getBookStatus() == Book.BookStatus.AVAILABLE) {
             throw new BusinessLogicException(ExceptionCode.RENTAL_HISTORY_NOT_FOUND);
         }
+        System.out.println();
 
         MemberBook foundMemberBook = memberBookService.findMemberBookByMemberIdBookId(memberId, bookId);
         if (foundMemberBook == null) {
