@@ -76,6 +76,17 @@ public class LibraryController {
                 new MultiResponse<>(responses, pageInfo), HttpStatus.OK
         );
     }
+//@GetMapping("/{library-Id}/members")
+//public ResponseEntity getMembers(@Positive @PathVariable("library-Id") Long libraryId) {
+//    List<LibraryMember> memberPage = libraryMemberService.findAllLibraryMembersByLibraryId(libraryId);
+//
+//    List<LibraryMemberDto.Response> responses = libraryMemberMapper.libraryMembersToLibraryMembersDtoResponse(memberPage);
+//    responses.stream().forEach(x -> {
+//        x.setLibraryId(libraryId);
+//        x.setUrl(memberUrl+x.getMemberId());
+//    });
+//    return new ResponseEntity(responses, HttpStatus.OK);
+//}
     @Transactional
     @GetMapping("/{library-Id}/books")
     public ResponseEntity getBooks(@Positive @PathVariable("library-Id")Long libraryId,

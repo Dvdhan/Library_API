@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LibraryMemberRepository extends JpaRepository<LibraryMember, Long> {
+public interface LibraryMemberRepository extends JpaRepository<LibraryMember, Long>, LibraryMemberRepositoryCustom {
 
     @Query("SELECT lm FROM LibraryMember lm WHERE lm.library.id = :libraryId")
     public Page<LibraryMember> findAllLibraryMembersByLibraryId(@Param("libraryId")Long libraryId, Pageable pageable);

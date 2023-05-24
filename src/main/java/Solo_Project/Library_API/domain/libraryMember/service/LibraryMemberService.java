@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LibraryMemberService {
 
@@ -16,6 +18,9 @@ public class LibraryMemberService {
     public Page<LibraryMember> findAllLibraryMembersByLibraryId(Long libraryId, int page, int size) {
         return libraryMemberRepository.findAllLibraryMembersByLibraryId(libraryId, PageRequest.of(page,size));
     }
+//    public List<LibraryMember> findAllLibraryMembersByLibraryId(Long libraryId) {
+//        return libraryMemberRepository.Q_DSL_findEveryLibraryMembersByLibraryId(libraryId);
+//    }
 
 
     public LibraryMember findByLibrary_IdAndMember_Id(Long libraryId, Long memberId) {
