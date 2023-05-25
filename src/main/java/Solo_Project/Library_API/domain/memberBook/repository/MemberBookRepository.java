@@ -34,4 +34,11 @@ public interface MemberBookRepository extends JpaRepository<MemberBook, Long> {
     @Query("DELETE FROM MemberBook mb WHERE mb.member.id =:memberId")
     void deleteByMember_Id(@Param("memberId") Long memberId);
 
+    //=================================================================================================================
+    // Spring Data JPA 버젼
+    List<MemberBook> findByMember_MemberIdAndReturnedAtIsNull(Long memberId);
+    // JPQL 버젼
+    @Query("SELECT mb FROM MemberBook mb WHERE mb.member.id =:memberId AND mb.returnedAt IS NULL")
+    List<MemberBook> findByMemberIdAndReturnedAtIsNull(@Param("memberId") Long memberId);
+
 }

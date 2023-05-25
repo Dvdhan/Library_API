@@ -23,8 +23,6 @@ import Solo_Project.Library_API.global.advice.ExceptionCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +33,6 @@ import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -178,8 +175,19 @@ public class BookController {
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
-    @GetMapping("/{library-Id}/{book-Id}")
-    public ResponseEntity getBook(@PathVariable("library-Id")@Positive Long libraryId,
+    // Spring Data JPA 버젼 LibraryBook 조회
+    @GetMapping("/{library-Id}/{book-Id}/SpringDataJPA")
+    public ResponseEntity getBookSpringDataJPA(@PathVariable("library-Id")@Positive Long libraryId,
+                                  @PathVariable("book-Id")@Positive Long bookId) {
+        LibraryBook libraryBook = libraryBookRepository.findByLibrary_LibraryIdAndBook_BookId(libraryId, bookId);
+        LibraryBookDto.Response response = libraryBookMapper.libraryBookToLibraryBookDtoResponse(libraryBook);
+        response.setUrl(url+libraryId+"/"+bookId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // JPQL 사용 LibraryBook 조회
+    @GetMapping("/{library-Id}/{book-Id}/JPQL")
+    public ResponseEntity getBookJPQL(@PathVariable("library-Id")@Positive Long libraryId,
                                    @PathVariable("book-Id")@Positive Long bookId) {
         LibraryBook libraryBook = libraryBookService.findLibraryBookByLibraryIdBookId(libraryId, bookId);
         LibraryBookDto.Response response = libraryBookMapper.libraryBookToLibraryBookDtoResponse(libraryBook);
