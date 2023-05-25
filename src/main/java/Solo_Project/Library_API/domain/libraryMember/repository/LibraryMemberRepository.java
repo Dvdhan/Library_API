@@ -17,5 +17,10 @@ public interface LibraryMemberRepository extends JpaRepository<LibraryMember, Lo
     LibraryMember findByLibrary_IdAndMember_Id(@Param("libraryId") Long libraryId, @Param("memberId") Long memberId);
 
     //=================================================================================================================
+    // Spring Data JPA 방식
     LibraryMember findByMember_MemberId(Long memberId);
+
+    // JPQL 방식
+    @Query("SELECT lm FROM LibraryMember lm WHERE lm.member.id =:memberId")
+    LibraryMember findLibraryMember(@Param("memberId")Long memberId);
 }

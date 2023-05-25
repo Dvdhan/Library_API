@@ -36,9 +36,9 @@ public interface MemberBookRepository extends JpaRepository<MemberBook, Long> {
 
     //=================================================================================================================
     // Spring Data JPA 버젼
-    List<MemberBook> findByMember_MemberIdAndReturnedAtIsNull(Long memberId);
+    List<MemberBook> findByMember_MemberIdAndReturnedAtIsNullAndBook_BookPublisher(Long memberId, String bookPublisher);
     // JPQL 버젼
-    @Query("SELECT mb FROM MemberBook mb WHERE mb.member.id =:memberId AND mb.returnedAt IS NULL")
-    List<MemberBook> findByMemberIdAndReturnedAtIsNull(@Param("memberId") Long memberId);
+    @Query("SELECT mb FROM MemberBook mb WHERE mb.member.id =:memberId AND mb.returnedAt IS NULL AND mb.book.bookPublisher =:bookPublisher")
+    List<MemberBook> findByMemberIdAndReturnedAtIsNull(@Param("memberId") Long memberId, @Param("bookPublisher") String bookPublisher);
 
 }
