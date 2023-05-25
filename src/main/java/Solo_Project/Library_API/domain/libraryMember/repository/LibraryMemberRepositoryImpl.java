@@ -32,4 +32,12 @@ public class LibraryMemberRepositoryImpl implements LibraryMemberRepositoryCusto
                         .and(qLibraryMember.member.memberId.eq(memberId)))
                 .fetchOne();
     }
+
+    @Override
+    public LibraryMember Q_DSL_findOne(Long memberId) {
+        return queryFactory
+                .selectFrom(qLibraryMember)
+                .where(qLibraryMember.member.memberId.eq(memberId))
+                .fetchOne();
+    }
 }

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface MemberBookRepository extends JpaRepository<MemberBook, Long> {
+public interface MemberBookRepository extends JpaRepository<MemberBook, Long>, MemberBookRepositoryCustom {
     int countByMemberAndReturnedAtIsNull(Member member);
 
     @Query("SELECT COUNT(mb) FROM MemberBook mb WHERE mb.member.memberId = :memberId AND mb.returnedAt IS NULL")
@@ -40,5 +40,7 @@ public interface MemberBookRepository extends JpaRepository<MemberBook, Long> {
     // JPQL 버젼
     @Query("SELECT mb FROM MemberBook mb WHERE mb.member.id =:memberId AND mb.returnedAt IS NULL AND mb.book.bookPublisher =:bookPublisher")
     List<MemberBook> findByMemberIdAndReturnedAtIsNull(@Param("memberId") Long memberId, @Param("bookPublisher") String bookPublisher);
+
+//    List<MemberBook> findMemberBook(Long memberId, String bookPublisher);
 
 }

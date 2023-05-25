@@ -6,16 +6,19 @@ import Solo_Project.Library_API.domain.library.service.LibraryService;
 import Solo_Project.Library_API.domain.libraryBook.repository.LibraryBookRepository;
 import Solo_Project.Library_API.domain.libraryMember.entity.LibraryMember;
 import Solo_Project.Library_API.domain.libraryMember.repository.LibraryMemberRepository;
+import Solo_Project.Library_API.domain.libraryMember.repository.LibraryMemberRepositoryImpl;
 import Solo_Project.Library_API.domain.libraryMember.service.LibraryMemberService;
 import Solo_Project.Library_API.domain.member.dto.MemberDto;
 import Solo_Project.Library_API.domain.member.entity.Member;
 import Solo_Project.Library_API.domain.member.mapper.MemberMapper;
 import Solo_Project.Library_API.domain.member.repository.MemberRepository;
+import Solo_Project.Library_API.domain.member.repository.MemberRepositoryImpl;
 import Solo_Project.Library_API.domain.member.service.MemberService;
 import Solo_Project.Library_API.domain.memberBook.dto.MemberBookDto;
 import Solo_Project.Library_API.domain.memberBook.entity.MemberBook;
 import Solo_Project.Library_API.domain.memberBook.mapper.MemberBookMapper;
 import Solo_Project.Library_API.domain.memberBook.repository.MemberBookRepository;
+import Solo_Project.Library_API.domain.memberBook.repository.MemberBookRepositoryImpl;
 import Solo_Project.Library_API.domain.memberBook.service.MemberBookService;
 import Solo_Project.Library_API.global.advice.BusinessLogicException;
 import Solo_Project.Library_API.global.advice.ExceptionCode;
@@ -47,6 +50,15 @@ public class MemberController {
     private MemberBookRepository memberBookRepository;
     @Autowired
     private MemberBookService memberBookService;
+
+    @Autowired
+    private MemberRepositoryImpl memberRepositoryImpl;
+
+    @Autowired
+    private MemberBookRepositoryImpl memberBookRepositoryImpl;
+
+    @Autowired
+    private LibraryMemberRepositoryImpl libraryMemberRepositoryImpl;
 
     private final String url = "http://localhost:8080/members/";
 
@@ -164,6 +176,7 @@ public class MemberController {
             throw new BusinessLogicException(ExceptionCode.RENTAL_HISTORY_NOT_FOUND);
         }
         List<MemberBookDto.RentalHistoryResponse> responses = memberBookMapper.HistoryMemberBooksToMemberBooksDtoResponse(memberBooks);
+
         return new ResponseEntity(responses,HttpStatus.OK);
     }
 
@@ -181,7 +194,11 @@ public class MemberController {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
         List<MemberBook> memberBooks = memberBookRepository.findByMemberIdAndReturnedAtIsNull(libraryMember.getMember().getMemberId(),bookPublisher);
+        if(memberBooks.isEmpty()) {
+            throw new BusinessLogicException(ExceptionCode.RENTAL_HISTORY_NOT_FOUND);
+        }
         List<MemberBookDto.RentalHistoryResponse> responses = memberBookMapper.HistoryMemberBooksToMemberBooksDtoResponse(memberBooks);
+
         return new ResponseEntity(responses, HttpStatus.OK);
     }
 
@@ -189,5 +206,25 @@ public class MemberController {
     // memberRepository = 회원 이름, 이메일로 회원 찾기
     // libraryMemberRepository = 찾은 회원에서 memberId를 꺼내서 도서관 회원 찾기
     // memberBookRepository = 찾은 도서관 회원의 memberId와 출판사 이름을 통해 미반납된 대여 도서 찾기
+    @GetMapping("/QueryDsl/history/{name}/{email}/{bookPublisher}")
+    public ResponseEntity QueryDslHistory(@PathVariable("name")String name,
+                                          @PathVariable("email")String email,
+                                          @PathVariable("bookPublisher")String bookPublisher){
+        Member member = memberRepositoryImpl.findAMember(name, email);
+        if (member == null) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
 
+        LibraryMember libraryMember = libraryMemberRepositoryImpl.Q_DSL_findOne(member.getMemberId());
+        if(libraryMember == null || libraryMember.getMember() == null) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
+        List<MemberBook> memberBooks = memberBookRepositoryImpl.Q_DSL_findMemberBooks(libraryMember.getMember().getMemberId(), bookPublisher);
+        if(memberBooks.isEmpty()) {
+            throw new BusinessLogicException(ExceptionCode.RENTAL_HISTORY_NOT_FOUND);
+        }
+        List<MemberBookDto.RentalHistoryResponse> responses = memberBookMapper.HistoryMemberBooksToMemberBooksDtoResponse(memberBooks);
+
+        return new ResponseEntity(responses, HttpStatus.OK);
+    }
 }
