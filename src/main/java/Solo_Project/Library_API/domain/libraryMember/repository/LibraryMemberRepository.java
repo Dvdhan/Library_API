@@ -15,4 +15,7 @@ public interface LibraryMemberRepository extends JpaRepository<LibraryMember, Lo
     public Page<LibraryMember> findAllLibraryMembersByLibraryId(@Param("libraryId")Long libraryId, Pageable pageable);
     @Query("SELECT lm FROM LibraryMember lm WHERE lm.library.id = :libraryId AND lm.member.id =:memberId")
     LibraryMember findByLibrary_IdAndMember_Id(@Param("libraryId") Long libraryId, @Param("memberId") Long memberId);
+
+    //=================================================================================================================
+    LibraryMember findByMember_MemberId(Long memberId);
 }
