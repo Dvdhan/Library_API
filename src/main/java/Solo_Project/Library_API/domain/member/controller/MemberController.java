@@ -143,9 +143,12 @@ public class MemberController {
     // 회원 이름, 이메일을 지닌 회원이 대여한 아직 반납안된 libraryBook 정보가져오기
     // 1. 주어진 회원 이름, 이메일을 지닌 회원 찾기.
     // 2. 찾은 회원이 가지고 있는 libraryBook 찾고, 그 중에 returnedAt 필드가 null 인 libraryBook List 찾기.
-    @GetMapping("/SpringDataJPA/history/{name}/{email}")
+
+    // Spring Data JPA 방식
+    @GetMapping("/SpringDataJPA/history/{name}/{email}/{bookPublisher}")
     public ResponseEntity SpringDataJPAgetHistory(@PathVariable("name")String name,
-                                                  @PathVariable("email")String email) {
+                                                  @PathVariable("email")String email,
+                                                  @PathVariable("bookPublisher")String bookPublisher) {
         Member member = memberRepository.findByNameAndEmail(name,email);
         if(member == null) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
@@ -156,31 +159,35 @@ public class MemberController {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
 
-        List<MemberBook> memberBooks = memberBookRepository.findByMember_MemberIdAndReturnedAtIsNull(libraryMember.getMember().getMemberId());
+        List<MemberBook> memberBooks = memberBookRepository.findByMember_MemberIdAndReturnedAtIsNullAndBook_BookPublisher(libraryMember.getMember().getMemberId(),bookPublisher);
         if (memberBooks.isEmpty()) {
             throw new BusinessLogicException(ExceptionCode.RENTAL_HISTORY_NOT_FOUND);
         }
         List<MemberBookDto.RentalHistoryResponse> responses = memberBookMapper.HistoryMemberBooksToMemberBooksDtoResponse(memberBooks);
         return new ResponseEntity(responses,HttpStatus.OK);
     }
-    @GetMapping("/JPQL/history/{name}/{email}")
+
+    //JPQL 방식
+    @GetMapping("/JPQL/history/{name}/{email}/{bookPublisher}")
     public ResponseEntity JPQLgetHistory(@PathVariable("name")String name,
-                                         @PathVariable("email")String email) {
-        Member member = memberRepository.findByNameAndEmail(name, email);
+                                         @PathVariable("email")String email,
+                                         @PathVariable("bookPublisher")String bookPublisher) {
+        Member member = memberRepository.findMember(name, email);
         if (member == null) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
-        LibraryMember libraryMember = libraryMemberRepository.findByMember_MemberId(member.getMemberId());
+        LibraryMember libraryMember = libraryMemberRepository.findLibraryMember(member.getMemberId());
         if(libraryMember == null || libraryMember.getMember() == null) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
-
-        List<MemberBook> memberBooks = memberBookRepository.findByMemberIdAndReturnedAtIsNull(libraryMember.getMember().getMemberId());
+        List<MemberBook> memberBooks = memberBookRepository.findByMemberIdAndReturnedAtIsNull(libraryMember.getMember().getMemberId(),bookPublisher);
         List<MemberBookDto.RentalHistoryResponse> responses = memberBookMapper.HistoryMemberBooksToMemberBooksDtoResponse(memberBooks);
         return new ResponseEntity(responses, HttpStatus.OK);
     }
 
-
-
+    //QueryDsl 방식
+    // memberRepository = 회원 이름, 이메일로 회원 찾기
+    // libraryMemberRepository = 찾은 회원에서 memberId를 꺼내서 도서관 회원 찾기
+    // memberBookRepository = 찾은 도서관 회원의 memberId와 출판사 이름을 통해 미반납된 대여 도서 찾기
 
 }
