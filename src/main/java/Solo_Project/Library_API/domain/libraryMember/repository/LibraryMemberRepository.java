@@ -23,4 +23,7 @@ public interface LibraryMemberRepository extends JpaRepository<LibraryMember, Lo
     // JPQL 방식
     @Query("SELECT lm FROM LibraryMember lm WHERE lm.member.id =:memberId")
     LibraryMember findLibraryMember(@Param("memberId")Long memberId);
+
+    // QueryDsl 방식
+//    LibraryMember findOne (Long memberId);
 }

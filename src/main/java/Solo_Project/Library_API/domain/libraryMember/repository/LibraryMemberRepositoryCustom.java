@@ -11,4 +11,5 @@ import java.util.List;
 public interface LibraryMemberRepositoryCustom {
     List<LibraryMember> Q_DSL_findEveryLibraryMembersByLibraryId(Long libraryId);
     LibraryMember Q_DSL_findLibraryMembersByLibrary_IdAndMember_Id(Long libraryId, Long memberId);
+    LibraryMember Q_DSL_findOne (Long memberId);
 }
