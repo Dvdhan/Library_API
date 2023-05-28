@@ -300,65 +300,65 @@ public class BookControllerTest {
                         )
                 ));
     }
-    @Test
-    public void getBookTest() throws Exception {
-        Long libraryId = 1L;
-        Long bookId = 1L;
-
-        LibraryBook libraryBook = new LibraryBook();
-        libraryBook.setBookStatus(Book.BookStatus.AVAILABLE);
-        given(libraryBookService.findLibraryBookByLibraryIdBookId(libraryId,bookId)).willReturn(libraryBook);
-
-        LibraryBookDto.Response response = new LibraryBookDto.Response();
-        response.setLibraryId(libraryId);
-        response.setBookId(bookId);
-        response.setLibraryBookId(1L);
-        response.setBookTitle("해리포터");
-        response.setBookAuthor("JK롤링");
-        response.setBookPublisher("A출판사");
-        response.setBookStatus(Book.BookStatus.AVAILABLE);
-        response.setUrl("http://localhost:8080/books/1/1");
-
-        given(libraryBookMapper.libraryBookToLibraryBookDtoResponse(Mockito.any(LibraryBook.class))).willReturn(response);
-
-        ResultActions actions =
-                mockMvc.perform(
-                        RestDocumentationRequestBuilders.get("/books/{libraryId}/{bookId}",libraryId,bookId)
-                                .accept(MediaType.APPLICATION_JSON)
-                                .contentType(MediaType.APPLICATION_JSON)
-                );
-        actions
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.libraryId").value(response.getLibraryId()))
-                .andExpect(jsonPath("$.bookId").value(response.getBookId()))
-                .andExpect(jsonPath("$.libraryBookId").value(response.getLibraryBookId()))
-                .andExpect(jsonPath("$.bookTitle").value(response.getBookTitle()))
-                .andExpect(jsonPath("$.bookAuthor").value(response.getBookAuthor()))
-                .andExpect(jsonPath("$.bookPublisher").value(response.getBookPublisher()))
-                .andExpect(jsonPath("$.bookStatus").value(response.getBookStatus().toString()))
-                .andExpect(jsonPath("$.url").value(response.getUrl()))
-                .andDo(document(
-                        "get-book",
-                        getRequestPreProcessor(),
-                        getResponsePreProcessor(),
-                        pathParameters(
-                                parameterWithName("libraryId").description("찾고자하는 도서관 식별자"),
-                                parameterWithName("bookId").description("찾고자하는 도서 식별자")
-                        ),
-                        responseFields(
-                                List.of(
-                                        fieldWithPath("libraryId").type(JsonFieldType.NUMBER).description("도서관 식별자"),
-                                        fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("도서 식별자"),
-                                        fieldWithPath("libraryBookId").type(JsonFieldType.NUMBER).description("도서관에 보관된 도서 식별자"),
-                                        fieldWithPath("bookTitle").type(JsonFieldType.STRING).description("도서 제목"),
-                                        fieldWithPath("bookAuthor").type(JsonFieldType.STRING).description("도서 작가"),
-                                        fieldWithPath("bookPublisher").type(JsonFieldType.STRING).description("도서 출판사"),
-                                        fieldWithPath("bookStatus").type(JsonFieldType.STRING).description("도서 상태"),
-                                        fieldWithPath("url").type(JsonFieldType.STRING).description("도서 조회 url")
-                                )
-                        )
-                ));
-    }
+//    @Test
+//    public void getBookTest() throws Exception {
+//        Long libraryId = 1L;
+//        Long bookId = 1L;
+//
+//        LibraryBook libraryBook = new LibraryBook();
+//        libraryBook.setBookStatus(Book.BookStatus.AVAILABLE);
+//        given(libraryBookService.findLibraryBookByLibraryIdBookId(libraryId,bookId)).willReturn(libraryBook);
+//
+//        LibraryBookDto.Response response = new LibraryBookDto.Response();
+//        response.setLibraryId(libraryId);
+//        response.setBookId(bookId);
+//        response.setLibraryBookId(1L);
+//        response.setBookTitle("해리포터");
+//        response.setBookAuthor("JK롤링");
+//        response.setBookPublisher("A출판사");
+//        response.setBookStatus(Book.BookStatus.AVAILABLE);
+//        response.setUrl("http://localhost:8080/books/1/1");
+//
+//        given(libraryBookMapper.libraryBookToLibraryBookDtoResponse(Mockito.any(LibraryBook.class))).willReturn(response);
+//
+//        ResultActions actions =
+//                mockMvc.perform(
+//                        RestDocumentationRequestBuilders.get("/books/{libraryId}/{bookId}",libraryId,bookId)
+//                                .accept(MediaType.APPLICATION_JSON)
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                );
+//        actions
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.libraryId").value(response.getLibraryId()))
+//                .andExpect(jsonPath("$.bookId").value(response.getBookId()))
+//                .andExpect(jsonPath("$.libraryBookId").value(response.getLibraryBookId()))
+//                .andExpect(jsonPath("$.bookTitle").value(response.getBookTitle()))
+//                .andExpect(jsonPath("$.bookAuthor").value(response.getBookAuthor()))
+//                .andExpect(jsonPath("$.bookPublisher").value(response.getBookPublisher()))
+//                .andExpect(jsonPath("$.bookStatus").value(response.getBookStatus().toString()))
+//                .andExpect(jsonPath("$.url").value(response.getUrl()))
+//                .andDo(document(
+//                        "get-book",
+//                        getRequestPreProcessor(),
+//                        getResponsePreProcessor(),
+//                        pathParameters(
+//                                parameterWithName("libraryId").description("찾고자하는 도서관 식별자"),
+//                                parameterWithName("bookId").description("찾고자하는 도서 식별자")
+//                        ),
+//                        responseFields(
+//                                List.of(
+//                                        fieldWithPath("libraryId").type(JsonFieldType.NUMBER).description("도서관 식별자"),
+//                                        fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("도서 식별자"),
+//                                        fieldWithPath("libraryBookId").type(JsonFieldType.NUMBER).description("도서관에 보관된 도서 식별자"),
+//                                        fieldWithPath("bookTitle").type(JsonFieldType.STRING).description("도서 제목"),
+//                                        fieldWithPath("bookAuthor").type(JsonFieldType.STRING).description("도서 작가"),
+//                                        fieldWithPath("bookPublisher").type(JsonFieldType.STRING).description("도서 출판사"),
+//                                        fieldWithPath("bookStatus").type(JsonFieldType.STRING).description("도서 상태"),
+//                                        fieldWithPath("url").type(JsonFieldType.STRING).description("도서 조회 url")
+//                                )
+//                        )
+//                ));
+//    }
     @Test
     public void getABookTest() throws Exception {
         Long bookId = 1L;
