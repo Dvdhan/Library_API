@@ -1,5 +1,5 @@
 spring:
-## JUnit Test 전용 H2
+## JUnit Repository Test 전용 H2
 #  h2:
 #    console:
 #      enabled: true
@@ -15,7 +15,6 @@ spring:
 #        format_sql: true
 
 #  실제 DB 사용 전용
-
   datasource:
     url: jdbc:mysql://localhost:3306/bookapi
     driver-class-name: com.mysql.cj.jdbc.Driver

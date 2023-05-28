@@ -487,353 +487,78 @@ updated on 2023.05.17</p>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_회원_등록">1.1. 회원 등록</h3>
-<div class="listingblock">
+<div class="paragraph">
 <div class="title">request</div>
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ echo '{
-  "name" : "David",
-  "phone" : "010-1111-1111",
-  "email" : "han@han.com",
-  "password" : "1234"
-}' | http POST 'http://localhost:8080/members/1' \
-    'Content-Type:application/json' \
-    'Accept:application/json'</code></pre>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/post-member/httpie-request.adoc[]</p>
 </div>
+<div class="paragraph">
+<div class="title">path-Parameter</div>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/post-member/path-parameters.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /members/{libraryId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>libraryId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">도서관 식별자</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. request-fields</caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phone</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">휴대폰 번호</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
-</tr>
-</tbody>
-</table>
-<div class="listingblock">
+<div class="paragraph">
+<div class="title">request-fields</div>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/post-member/request-fields.adoc[]</p>
+</div>
+<div class="paragraph">
 <div class="title">response-body</div>
-<div class="content">
-<pre class="prettyprint highlight nowrap"><code>{
-  "libraryId" : 1,
-  "memberId" : 1,
-  "name" : "David",
-  "phone" : "010-1111-1111",
-  "email" : "han@han.com",
-  "password" : "1234",
-  "url" : "http://localhost:8080/members/1"
-}</code></pre>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/post-member/response-body.adoc[]</p>
 </div>
+<div class="paragraph">
+<div class="title">response-fields</div>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/post-member/response-fields.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. response-fields</caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별자</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>libraryId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">도서관 식별자</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phone</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">휴대폰 번호</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>url</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">조회 URL</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect2">
 <h3 id="_회원_조회">1.2. 회원 조회</h3>
-<div class="listingblock">
+<div class="paragraph">
 <div class="title">request</div>
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/members/1/1' \
-    'Accept:application/json'</code></pre>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/get-member/httpie-request.adoc[]</p>
 </div>
+<div class="paragraph">
+<div class="title">request-fields</div>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/get-member/path-parameters.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. /members/{libraryId}/{memberId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>libraryId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">도서관 식별자</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별자</p></td>
-</tr>
-</tbody>
-</table>
-<div class="listingblock">
+<div class="paragraph">
 <div class="title">response</div>
-<div class="content">
-<pre class="prettyprint highlight nowrap"><code>{
-  "libraryId" : 1,
-  "memberId" : 1,
-  "name" : "David",
-  "phone" : "010-1111-1111",
-  "email" : "han@han.com",
-  "password" : "1234",
-  "url" : "http://localhost:8080/members/1"
-}</code></pre>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/get-member/response-body.adoc[]</p>
 </div>
+<div class="paragraph">
+<div class="title">response-fields</div>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/get-member/response-fields.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. response-fields</caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>libraryId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">소속 도서관 식별자</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별자</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phone</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">휴대폰 번호</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>url</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">조회 URL</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect2">
 <h3 id="_회원_삭제">1.3. 회원 삭제</h3>
-<div class="listingblock">
+<div class="paragraph">
 <div class="title">request</div>
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ http DELETE 'http://localhost:8080/members/1/1' \
-    'Accept:application/json'</code></pre>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/delete-member/httpie-request.adoc[]</p>
 </div>
+<div class="paragraph">
+<div class="title">request-fields</div>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/delete-member/path-parameters.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. /members/{libraryId}/{memberId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>libraryId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">도서관 식별자</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별자</p></td>
-</tr>
-</tbody>
-</table>
-<div class="listingblock">
+<div class="paragraph">
 <div class="title">response</div>
-<div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content</code></pre>
-</div>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/delete-member/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_회원_대여_기록_조회">1.4. 회원 대여 기록 조회</h3>
-<div class="listingblock">
+<div class="paragraph">
 <div class="title">request</div>
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ http GET 'http://localhost:8080/members/history/1?page=1&amp;size=10' \
-    'Accept:application/json'</code></pre>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/get-member_Rental_history/httpie-request.adoc[]</p>
 </div>
+<div class="paragraph">
+<div class="title">request-parameters</div>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/get-member_Rental_history/path-parameters.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. /members/history/{memberId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별자</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. request-pathParameter</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">내용이 나오는 페이지</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">한 페이지에 나오는 최대 갯수</p></td>
-</tr>
-</tbody>
-</table>
-<div class="listingblock">
+<div class="paragraph">
+<div class="title">request-pathParameter</div>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/get-member_Rental_history/request-parameters.adoc[]</p>
+</div>
+<div class="paragraph">
 <div class="title">response</div>
-<div class="content">
-<pre class="prettyprint highlight nowrap"><code>{
-  "data" : [ {
-    "memberId" : 1,
-    "libraryId" : 1,
-    "bookId" : 1,
-    "memberBookId" : 1,
-    "bookTitle" : "해리포터",
-    "createdAt" : "2023-05-23",
-    "dueReturnDate" : "2023-06-06",
-    "returnedDate" : "2023-05-23"
-  } ],
-  "pageinfo" : {
-    "page" : 0,
-    "size" : 1,
-    "totalElements" : 1,
-    "totalPages" : 1
-  }
-}</code></pre>
-</div>
+<p>Unresolved directive in index.adoc - include::C:\Users\han20\han\Library_API\build\generated-snippets/get-member_Rental_history/response-body.adoc[]</p>
 </div>
 </div>
 </div>
@@ -852,7 +577,7 @@ updated on 2023.05.17</p>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. /books/{libraryId}/{bookId}/{memberId}</caption>
+<caption class="title">Table 1. /books/{libraryId}/{bookId}/{memberId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -886,14 +611,14 @@ updated on 2023.05.17</p>
   "memberId" : 1,
   "bookId" : 1,
   "memberBookId" : 1,
-  "bookTitle" : "해리포터",
-  "createdAt" : "2023-05-23",
-  "dueReturnDate" : "2023-06-06"
+  "bookTitle" : "�빐由ы룷�꽣",
+  "createdAt" : "2023-05-28",
+  "dueReturnDate" : "2023-06-11"
 }</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. response-fields</caption>
+<caption class="title">Table 2. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -956,7 +681,7 @@ updated on 2023.05.17</p>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. /books/{libraryId}/{bookId}/{memberId}</caption>
+<caption class="title">Table 3. /books/{libraryId}/{bookId}/{memberId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -990,16 +715,16 @@ updated on 2023.05.17</p>
   "libraryId" : 1,
   "bookId" : 1,
   "memberBookId" : 1,
-  "bookTitle" : "해리포터2",
-  "createdAt" : "2023-05-08",
-  "returnedAt" : "2023-05-23",
+  "bookTitle" : "�빐由ы룷�꽣2",
+  "createdAt" : "2023-05-13",
+  "returnedAt" : "2023-05-28",
   "overdueDays" : 1,
-  "message" : "연체가 발생되어 1일 동안 대여할 수 없습니다. 2023-05-24 일부터 대여할 수 있습니다."
+  "message" : "�뿰泥닿� 諛쒖깮�릺�뼱 1�씪 �룞�븞 ���뿬�븷 �닔 �뾾�뒿�땲�떎. 2023-05-29 �씪遺��꽣 ���뿬�븷 �닔 �엳�뒿�땲�떎."
 }</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. response-fields</caption>
+<caption class="title">Table 4. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1071,7 +796,7 @@ updated on 2023.05.17</p>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. /books/{bookId}</caption>
+<caption class="title">Table 5. /books/{bookId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1097,9 +822,9 @@ updated on 2023.05.17</p>
     "libraryId" : 1,
     "bookId" : 1,
     "libraryBookId" : 1,
-    "bookTitle" : "해리포터",
-    "bookAuthor" : "JK롤링",
-    "bookPublisher" : "A출판사",
+    "bookTitle" : "�빐由ы룷�꽣",
+    "bookAuthor" : "JK濡ㅻ쭅",
+    "bookPublisher" : "A異쒗뙋�궗",
     "bookStatus" : "AVAILABLE",
     "url" : "http://localhost:8080/books/1"
   } ],
@@ -1113,7 +838,7 @@ updated on 2023.05.17</p>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. response-fields</caption>
+<caption class="title">Table 6. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1210,7 +935,7 @@ updated on 2023.05.17</p>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. /library/{libraryId}/members</caption>
+<caption class="title">Table 7. /library/{libraryId}/members</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1229,7 +954,7 @@ updated on 2023.05.17</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 16. request-pathParameter</caption>
+<caption class="title">Table 8. request-pathParameter</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1274,7 +999,7 @@ updated on 2023.05.17</p>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 17. response-fields</caption>
+<caption class="title">Table 9. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1361,7 +1086,7 @@ updated on 2023.05.17</p>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 18. /library/{libraryId}/books</caption>
+<caption class="title">Table 10. /library/{libraryId}/books</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1380,7 +1105,7 @@ updated on 2023.05.17</p>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 19. request-pathParameter</caption>
+<caption class="title">Table 11. request-pathParameter</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1410,9 +1135,9 @@ updated on 2023.05.17</p>
     "libraryId" : 1,
     "bookId" : 1,
     "libraryBookId" : 0,
-    "bookTitle" : "해리포터",
-    "bookAuthor" : "JK롤링",
-    "bookPublisher" : "A출판사",
+    "bookTitle" : "�빐由ы룷�꽣",
+    "bookAuthor" : "JK濡ㅻ쭅",
+    "bookPublisher" : "A異쒗뙋�궗",
     "bookStatus" : "AVAILABLE",
     "url" : "http://localhost:8080/books/0"
   } ],
@@ -1426,7 +1151,7 @@ updated on 2023.05.17</p>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 20. response-fields</caption>
+<caption class="title">Table 12. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
