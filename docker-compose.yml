@@ -1,0 +1,43 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: library
+    ports:
+      # Docker를 실행하고 있는 PC의 포트 : Docker 컨테이너 내부의 포트
+      # 즉 외부에서 이 앱 8080으로 보내는 요청은 우항의 Docker컨테이너로 연결.
+      - "8080:8080"
+    depends_on:
+      - mysql-container
+    # Spring Boot 애플리케이션에서 MySQL 컨테이너에 접근하기 위한 설정.
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-container:3306/library_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=pw1234
+      - JWT_SECRET_KEY=davidhanisnothungryrightnow
+
+    # Docker에 생성된 MySQL 컨테이너의 설정
+  mysql-container:
+    image: mysql:5.7
+    restart: always
+    environment:
+      # MySQL 컨테이너 전체 권한을 가진 root 비밀번호
+      MYSQL_ROOT_PASSWORD: pw1234
+      # MySQL 컨테이너에서 생성할 DB의 이름
+      MYSQL_DATABASE: library_db
+      # MySQL 컨테이너에서 생성할 DB에 대한 권한을 가진 계정,비밀번호
+#      MYSQL_USER: root
+#      MYSQL_PASSWORD: pw1234
+    volumes:
+      - ./1_book.sql:/docker-entrypoint-initdb.d/1_book.sql
+      - ./2_library.sql:/docker-entrypoint-initdb.d/2_library.sql
+      - ./3_library_book.sql:/docker-entrypoint-initdb.d/3_library_book.sql
+    expose:
+      - "3306"
+
+volumes:
+  db-data:
+
+
